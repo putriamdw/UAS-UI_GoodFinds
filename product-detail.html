@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cream Blazer Oversize Vintage — GoodFinds</title>
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages/product-detail.css">
+  <script src="js/auth.js"></script>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="index.html" class="navbar-logo">Good<span>Finds</span></a>
+    <div class="navbar-nav">
+      <a href="catalog.html" class="navbar-link active">Katalog</a>
+      <a href="articles.html" class="navbar-link">Artikel</a>
+      <a href="index.html#why" class="navbar-link">Tentang</a>
+    </div>
+    <div class="navbar-actions">
+      <a href="cart.html" class="navbar-icon-btn">🛒<span class="navbar-cart-count" id="cartCount">0</span></a>
+      <a href="login.html" class="btn btn-primary btn-sm navbar-login-btn">Masuk</a>
+      <div class="navbar-user-menu" style="display:none; align-items:center; gap:10px;">
+        <span style="font-size:13px; color:var(--text-muted);">Hai, <strong class="navbar-user-name"></strong></span>
+        <a href="history.html" class="btn btn-ghost btn-sm">Pesanan</a>
+        <button class="btn btn-outline btn-sm" onclick="gfLogout()">Keluar</button>
+      </div>
+    </div>
+    <button class="navbar-hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="navbar-mobile-drawer" id="mobileDrawer">
+  <a href="catalog.html" class="navbar-mobile-link">Katalog</a>
+  <a href="articles.html" class="navbar-mobile-link">Artikel</a>
+  <a href="index.html#why" class="navbar-mobile-link">Tentang</a>
+  <div class="navbar-mobile-actions">
+    <a href="cart.html" class="btn btn-outline btn-sm" style="flex:1">🛒 Keranjang</a>
+    <a href="login.html" class="btn btn-primary btn-sm" style="flex:1">Masuk</a>
+  </div>
+</div>
+
+<div class="container">
+  <div class="breadcrumb"><a href="index.html">Home</a><span class="breadcrumb-sep">›</span><a href="catalog.html">Katalog</a><span class="breadcrumb-sep">›</span><a href="catalog.html">Outer</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Cream Blazer Oversize</span></div>
+</div>
+
+<section class="product-detail-section">
+  <div class="container">
+    <div class="product-detail-grid">
+
+      <!-- GALLERY -->
+      <div class="product-gallery">
+        <div class="product-gallery-main" id="mainImg">
+          <img src="https://i.pinimg.com/736x/92/56/90/92569033684352512f1551d915fa6724.jpg" alt="Cream Blazer Oversize" class="product-gallery-main-img">
+        </div>
+        <div class="product-gallery-thumbs">
+          <div class="product-gallery-thumb active">
+            <img src="https://i.pinimg.com/736x/a7/55/79/a75579ca9519b99c81220fcf10cbf108.jpg" alt="Front view">
+          </div>
+          <div class="product-gallery-thumb">
+            <img src="https://i.pinimg.com/1200x/9d/d5/7f/9dd57f5a73e5a02bf2fb3c8ee420d3e3.jpg" alt="Side view">
+          </div>
+          <div class="product-gallery-thumb">
+            <img src="https://i.pinimg.com/1200x/fe/13/f2/fe13f2b9b504fbf12a72af21d8c1ba36.jpg" alt="Detail view">
+          </div>
+          <div class="product-gallery-thumb">
+            <img src="https://i.pinimg.com/736x/92/56/90/92569033684352512f1551d915fa6724.jpg" alt="Styled view">
+          </div>
+        </div>
+      </div>
+
+      <!-- INFO -->
+      <div class="product-info">
+        <div class="product-brand">Zara · Outer</div>
+        <h1 class="product-name">Cream Blazer Oversize</h1>
+        <div class="product-badges">
+          <span class="badge badge-pink">New Drop</span>
+          <span class="badge badge-green">✓ Kurasi Manual</span>
+        </div>
+        <div class="product-rating">
+          <span class="product-stars">★★★★★</span>
+          <span class="product-rating-text">4.9 (127 ulasan)</span>
+        </div>
+        <div class="product-price-wrap">
+          <span class="product-price">Rp 120.000</span>
+          <span class="product-price-original">Rp 320.000</span>
+          <span class="product-price-save">Hemat 62%</span>
+        </div>
+
+        <div class="product-size-section">
+          <div class="product-section-label">Pilih Ukuran <a href="#">Panduan Ukuran</a></div>
+          <div class="size-selector">
+            <button class="size-option">XS</button>
+            <button class="size-option">S</button>
+            <button class="size-option active">M</button>
+            <button class="size-option">L</button>
+            <button class="size-option sold-out">XL</button>
+          </div>
+        </div>
+
+        <div class="condition-meter">
+          <div class="product-section-label">Kondisi Item</div>
+          <div class="condition-bar-wrap"><div class="condition-bar-fill" style="width:92%"></div></div>
+          <div class="condition-label-row"><span>Kurang Baik</span><span>⭐ Seperti Baru (92%)</span><span>Baru</span></div>
+        </div>
+
+        <div class="product-actions">
+          <div class="qty-control">
+            <button class="qty-btn" id="qtyMinus">−</button>
+            <input class="qty-value" id="qtyValue" value="1" readonly>
+            <button class="qty-btn" id="qtyPlus">+</button>
+          </div>
+          <button class="btn-add-cart" id="addToCartBtn">+ Masukkan Keranjang</button>
+          <button class="btn-wishlist" id="wishlistBtn">🤍</button>
+        </div>
+
+        <div class="product-meta-badges">
+          <div class="meta-badge"><span class="meta-badge-icon">🚚</span><span>Estimasi 2–3 hari kerja</span></div>
+          <div class="meta-badge"><span class="meta-badge-icon">↩️</span><span>Retur dalam 7 hari</span></div>
+          <div class="meta-badge"><span class="meta-badge-icon">✅</span><span>Keaslian terjamin</span></div>
+          <div class="meta-badge"><span class="meta-badge-icon">🌿</span><span>Item thrift berkelanjutan</span></div>
+        </div>
+
+        <div class="product-tabs">
+          <div class="product-tab-list">
+            <button class="product-tab-btn active" data-tab="tab-desc">Deskripsi</button>
+            <button class="product-tab-btn" data-tab="tab-specs">Spesifikasi</button>
+            <button class="product-tab-btn" data-tab="tab-reviews">Ulasan (127)</button>
+          </div>
+          <div id="tab-desc" class="product-tab-pane active">
+            <p class="product-desc-text">Blazer oversize dengan warna cream yang timeless. Kondisi sangat baik, tidak ada cacat berarti. Cocok untuk berbagai kesempatan dari casual hingga semi-formal. Item ini dikurasi langsung oleh tim stylist GoodFinds. Bahan: 60% Wool, 40% Polyester. Dibuat oleh Zara sekitar tahun 2018–2020.</p>
+          </div>
+          <div id="tab-specs" class="product-tab-pane">
+            <div class="product-spec-row"><span class="product-spec-key">Brand</span><span class="product-spec-val">Zara</span></div>
+            <div class="product-spec-row"><span class="product-spec-key">Kategori</span><span class="product-spec-val">Outer / Blazer</span></div>
+            <div class="product-spec-row"><span class="product-spec-key">Ukuran</span><span class="product-spec-val">M (Fit to L)</span></div>
+            <div class="product-spec-row"><span class="product-spec-key">Warna</span><span class="product-spec-val">Cream / Off White</span></div>
+            <div class="product-spec-row"><span class="product-spec-key">Bahan</span><span class="product-spec-val">60% Wool, 40% Polyester</span></div>
+            <div class="product-spec-row"><span class="product-spec-key">Kondisi</span><span class="product-spec-val">⭐ Seperti Baru</span></div>
+            <div class="product-spec-row"><span class="product-spec-key">Panjang</span><span class="product-spec-val">70 cm</span></div>
+          </div>
+          <div id="tab-reviews" class="product-tab-pane">
+            <div class="reviews-list">
+              <div class="review-card">
+                <div class="review-header"><div class="review-avatar" style="background:linear-gradient(135deg,var(--pink-light),var(--pink-mid));">A</div><div><div class="review-name">Anita R.</div><div class="review-stars">★★★★★</div></div></div>
+                <p class="review-text">"Kondisi beneran seperti baru! Ukurannya pas banget buat oversize. Warnanya cream susu yang cantik, highly recommend!"</p>
+              </div>
+              <div style="padding:16px;background:var(--bg-soft);border-radius:var(--radius-md);">
+                <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;"><div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--gold-mid),var(--gold-light));display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--white);font-weight:700;">D</div><div><div style="font-size:14px;font-weight:600;color:var(--text-main);">Dewi M.</div><div style="color:#F2A84B;font-size:13px;">★★★★★</div></div></div>
+                <p style="font-size:14px;color:var(--text-muted);line-height:1.6;">"Pengiriman cepat, packaging rapi. Blazernya persis seperti foto. Udah aku padu-paduin sama celana kulot dan loafers, aesthetic banget!"</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STYLED FOR YOU -->
+    <div class="styled-for-you">
+      <div class="styled-header"><span style="font-size:24px;">✨</span><h2 class="styled-title">Styled For You</h2></div>
+      <p class="styled-subtitle">Rekomendasi styling personal dari tim GoodFinds — padukan item ini dengan:</p>
+      <div class="styled-items">
+        <div class="styled-item"><span class="styled-item-icon">👗</span><span>White pleated skirt</span></div>
+        <div class="styled-item"><span class="styled-item-icon">👜</span><span>Gold shoulder bag</span></div>
+        <div class="styled-item"><span class="styled-item-icon">👟</span><span>Beige loafers or Mary Janes</span></div>
+        <div class="styled-item"><span class="styled-item-icon">🎀</span><span>Satin hair bow in cream or blush</span></div>
+      </div>
+      <div style="margin-bottom:12px;font-size:13px;color:var(--text-muted);font-weight:500;">Aesthetic vibe:</div>
+      <div class="styled-vibes">
+        <span class="vibe-tag">Coquette</span>
+        <span class="vibe-tag">Soft Girl</span>
+        <span class="vibe-tag">Vintage Chic</span>
+        <span class="vibe-tag">Old Money</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RELATED -->
+<section class="related-section">
+  <div class="container">
+    <span class="section-label">Mungkin Kamu Suka</span>
+    <h2 class="section-title">Item Terkait</h2>
+    <div class="related-grid">
+
+      <div class="product-card" data-price="85000" data-size="S">
+        <div class="product-card-img">
+          <img src="https://i.pinimg.com/736x/c3/03/b5/c303b5ebe83835ef253b8acf76261c6b.jpg" alt="Floral Midi Dress" class="product-card-img-tag">
+          <div class="product-card-badges"><span class="badge badge-gold">Bestseller</span></div>
+          <button class="product-card-wishlist">🤍</button>
+        </div>
+        <div class="product-card-body">
+          <div class="product-card-brand">H&M</div>
+          <div class="product-card-name">Floral Midi Dress</div>
+          <div class="product-card-price"><span class="product-card-price-main">Rp 85.000</span></div>
+          <button class="product-card-add">+ Keranjang</button>
+        </div>
+      </div>
+
+      <div class="product-card" data-price="280000" data-size="XS">
+        <div class="product-card-img">
+          <img src="https://i.pinimg.com/736x/ab/d5/85/abd5853b05d4fb35293e72d868cc863c.jpg" alt="Mini Shoulder Bag" class="product-card-img-tag">
+          <button class="product-card-wishlist">🤍</button>
+        </div>
+        <div class="product-card-body">
+          <div class="product-card-brand">Gucci Archive</div>
+          <div class="product-card-name">Mini Shoulder Bag</div>
+          <div class="product-card-price"><span class="product-card-price-main">Rp 280.000</span></div>
+          <button class="product-card-add">+ Keranjang</button>
+        </div>
+      </div>
+
+      <div class="product-card" data-price="195000" data-size="L">
+        <div class="product-card-img">
+          <img src="https://i.pinimg.com/736x/73/b6/db/73b6db2ff99bca9f800d106ced337f3b.jpg" alt="Air Max 90 Retro" class="product-card-img-tag">
+          <button class="product-card-wishlist">🤍</button>
+        </div>
+        <div class="product-card-body">
+          <div class="product-card-brand">Nike Vintage</div>
+          <div class="product-card-name">Air Max 90 Retro</div>
+          <div class="product-card-price"><span class="product-card-price-main">Rp 195.000</span></div>
+          <button class="product-card-add">+ Keranjang</button>
+        </div>
+      </div>
+
+      <div class="product-card" data-price="35000" data-size="ONE SIZE">
+        <div class="product-card-img">
+          <img src="https://i.pinimg.com/736x/99/ad/cf/99adcf7e24925ca822dfc977f7f1fa2a.jpg" alt="Satin Hair Bow Set" class="product-card-img-tag">
+          <button class="product-card-wishlist">🤍</button>
+        </div>
+        <div class="product-card-body">
+          <div class="product-card-brand">Vintage Acc</div>
+          <div class="product-card-name">Satin Hair Bow Set</div>
+          <div class="product-card-price"><span class="product-card-price-main">Rp 35.000</span></div>
+          <button class="product-card-add">+ Keranjang</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <a href="index.html" class="footer-brand">Good<span>Finds</span></a>
+        <p class="footer-tagline">Thrift yang dikurasi, style yang autentik, dan pilihan yang baik untuk bumi. Temukan gaya unikmu di GoodFinds.</p>
+        <div class="footer-socials">
+          <a href="#" class="footer-social-btn">📸</a>
+          <a href="#" class="footer-social-btn">🐦</a>
+          <a href="#" class="footer-social-btn">📱</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Belanja</div>
+        <a href="catalog.html" class="footer-link">Semua Produk</a>
+        <a href="catalog.html" class="footer-link">New Drop</a>
+        <a href="catalog.html" class="footer-link">Bestseller</a>
+        <a href="catalog.html" class="footer-link">Sale</a>
+      </div>
+      <div>
+        <div class="footer-col-title">Info</div>
+        <a href="articles.html" class="footer-link">Blog</a>
+        <a href="index.html#why" class="footer-link">Tentang Kami</a>
+        <a href="#" class="footer-link">Karir</a>
+        <a href="#" class="footer-link">Press</a>
+      </div>
+      <div>
+        <div class="footer-col-title">Bantuan</div>
+        <a href="#" class="footer-link">Cara Pemesanan</a>
+        <a href="#" class="footer-link">Pengiriman</a>
+        <a href="#" class="footer-link">Pengembalian</a>
+        <a href="#" class="footer-link">Kontak</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2026 GoodFinds. All rights reserved.</span>
+      <div class="footer-bottom-links">
+        <a href="#" class="footer-bottom-link">Privasi</a>
+        <a href="#" class="footer-bottom-link">Syarat &amp; Ketentuan</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+<script src="js/product-detail.js"></script>
+<script>if(typeof gfUpdateNavbar==='function') gfUpdateNavbar();</script>
+</body>
+</html>

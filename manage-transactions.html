@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kelola Transaksi — GoodFinds Admin</title>
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages/admin.css">
+  <script src="js/auth.js"></script>
+  <script>const _gfAdminSession = gfRequireAdmin(); if(!_gfAdminSession) throw new Error("Not admin");</script>
+</head>
+<body>
+<div class="admin-layout">
+
+  <aside class="admin-sidebar">
+    <div class="admin-sidebar-logo">
+      <div class="admin-sidebar-logo-text">Good<span>Finds</span></div>
+      <div class="admin-sidebar-role">Admin Panel</div>
+    </div>
+    <nav class="admin-nav">
+      <div class="admin-nav-section">Utama</div>
+      <a href="dashboard.html" class="admin-nav-link"><span class="nav-icon">📊</span> Dashboard</a>
+      <div class="admin-nav-section">Konten</div>
+      <a href="manage-articles.html" class="admin-nav-link"><span class="nav-icon">📝</span> Kelola Artikel</a>
+      <a href="manage-products.html" class="admin-nav-link"><span class="nav-icon">👗</span> Kelola Produk</a>
+      <div class="admin-nav-section">Data</div>
+      <a href="manage-users.html" class="admin-nav-link"><span class="nav-icon">👥</span> Kelola Pengguna</a>
+      <a href="manage-transactions.html" class="admin-nav-link active"><span class="nav-icon">💳</span> Kelola Transaksi</a>
+      <div class="admin-nav-section">Sistem</div>
+      <a href="index.html" class="admin-nav-link"><span class="nav-icon">🌐</span> Lihat Website</a>
+      <a href="#" class="admin-nav-link" onclick="gfLogout();return false;"><span class="nav-icon">🚪</span> Keluar</a>
+    </nav>
+  </aside>
+
+  <div class="admin-main">
+
+    <!-- TOPBAR - seragam -->
+    <div class="admin-topbar">
+      <div class="admin-topbar-left">
+        <div class="admin-topbar-title">Kelola Transaksi</div>
+        <div class="admin-topbar-breadcrumb">Admin Panel &nbsp;›&nbsp; Kelola Transaksi</div>
+      </div>
+      <div class="admin-topbar-right">
+        <button class="btn btn-outline btn-sm" onclick="showToast('📥 Mengekspor data...')">⬇ Export CSV</button>
+        <button class="admin-topbar-notif" onclick="showToast('🔔 Tidak ada notifikasi baru')">
+          🔔 <span class="admin-notif-badge">3</span>
+        </button>
+        <div class="admin-topbar-user">
+          <div class="admin-topbar-avatar">A</div>
+          <div class="admin-topbar-userinfo">
+            <div class="admin-topbar-username">Admin</div>
+            <div class="admin-topbar-userrole">Super Admin</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="admin-content">
+      <div class="admin-page-header">
+        <div>
+          <h1 class="admin-page-title">Kelola Transaksi</h1>
+          <p class="admin-page-desc">Total <strong>1.284</strong> transaksi · <strong>23</strong> menunggu konfirmasi</p>
+        </div>
+      </div>
+
+      <!-- MINI STATS -->
+      <div class="admin-stat-row">
+        <div class="admin-mini-stat">
+          <div class="admin-mini-stat-label">Total Transaksi</div>
+          <div class="admin-mini-stat-value stat-counter" data-target="1284">0</div>
+          <div class="admin-mini-stat-change">↑ +12% bulan ini</div>
+        </div>
+        <div class="admin-mini-stat">
+          <div class="admin-mini-stat-label">Pendapatan Bulan Ini</div>
+          <div class="admin-mini-stat-value" style="color:var(--pink-mid);">Rp 24,7 jt</div>
+          <div class="admin-mini-stat-change">↑ +8.4% vs bulan lalu</div>
+        </div>
+        <div class="admin-mini-stat">
+          <div class="admin-mini-stat-label">Menunggu Konfirmasi</div>
+          <div class="admin-mini-stat-value stat-counter" style="color:#E65100;" data-target="23">0</div>
+          <div class="admin-mini-stat-change" style="color:var(--text-light);">Perlu diproses segera</div>
+        </div>
+        <div class="admin-mini-stat">
+          <div class="admin-mini-stat-label">Avg. Order Value</div>
+          <div class="admin-mini-stat-value" style="color:#B8860B;">Rp 192k</div>
+          <div class="admin-mini-stat-change">↑ +5.2% vs bulan lalu</div>
+        </div>
+      </div>
+
+      <!-- FILTER TOOLBAR -->
+      <div class="admin-toolbar">
+        <div class="admin-search" style="max-width:260px;flex:1;">
+          <span class="admin-search-icon">🔍</span>
+          <input type="text" id="tableSearch" placeholder="Cari ID / nama pelanggan...">
+        </div>
+        <select class="admin-filter-select" id="statusFilter">
+          <option value="">Semua Status</option>
+          <option value="pending">Menunggu</option>
+          <option value="paid">Dibayar</option>
+          <option value="shipping">Dikirim</option>
+          <option value="done">Selesai</option>
+          <option value="cancelled">Dibatalkan</option>
+        </select>
+        <select class="admin-filter-select">
+          <option>Semua Metode</option>
+          <option>Transfer Bank</option>
+          <option>E-Wallet</option>
+          <option>COD</option>
+        </select>
+        <input type="date" class="admin-filter-select" style="cursor:pointer;">
+        <button class="btn btn-outline btn-sm" onclick="showToast('🔍 Filter diterapkan')">Terapkan</button>
+        <button class="btn btn-ghost btn-sm" onclick="showToast('🔄 Filter direset')">Reset</button>
+      </div>
+
+      <!-- STATUS TABS -->
+      <div class="admin-tabs">
+        <button class="admin-tab active" data-filter="">Semua <span class="admin-tab-count">1284</span></button>
+        <button class="admin-tab" data-filter="pending">Menunggu <span class="admin-tab-count">23</span></button>
+        <button class="admin-tab" data-filter="paid">Dibayar <span class="admin-tab-count">84</span></button>
+        <button class="admin-tab" data-filter="shipping">Dikirim <span class="admin-tab-count">47</span></button>
+        <button class="admin-tab" data-filter="done">Selesai <span class="admin-tab-count">1098</span></button>
+        <button class="admin-tab" data-filter="cancelled">Dibatalkan <span class="admin-tab-count">32</span></button>
+      </div>
+
+      <!-- TABLE -->
+      <div class="table-wrapper">
+        <table class="data-table" id="transactionsTable">
+          <thead>
+            <tr>
+              <th><input type="checkbox" id="checkAll" style="accent-color:var(--pink-mid);"></th>
+              <th>ID Pesanan</th>
+              <th>Pelanggan</th>
+              <th>Item</th>
+              <th>Total</th>
+              <th>Metode Bayar</th>
+              <th>Tanggal</th>
+              <th>Status</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="transactionsBody"></tbody>
+        </table>
+
+        <!-- PAGINATION -->
+        <div class="table-pagination">
+          <span class="table-pagination-info">Menampilkan 1–10 dari 1.284 transaksi</span>
+          <div class="table-pagination-btns">
+            <button class="tpag-btn">←</button>
+            <button class="tpag-btn active">1</button>
+            <button class="tpag-btn">2</button>
+            <button class="tpag-btn">3</button>
+            <button class="tpag-btn">…</button>
+            <button class="tpag-btn">129</button>
+            <button class="tpag-btn">→</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- MODAL DETAIL TRANSAKSI -->
+<div class="modal-overlay" id="txDetailModal">
+  <div class="modal" style="max-width:560px;">
+    <div class="modal-header">
+      <h3 class="modal-title">Detail Transaksi</h3>
+      <button class="modal-close">✕</button>
+    </div>
+    <div id="txDetailContent" style="padding:0 0 8px;"></div>
+  </div>
+</div>
+
+<!-- MODAL UPDATE STATUS -->
+<div class="modal-overlay" id="txStatusModal">
+  <div class="modal" style="max-width:400px;">
+    <div class="modal-header">
+      <h3 class="modal-title">Update Status</h3>
+      <button class="modal-close">✕</button>
+    </div>
+    <div style="padding:0 0 8px;">
+      <div class="form-group" style="margin-bottom:16px;">
+        <label class="form-label">Status Baru</label>
+        <select class="form-input form-select" id="newStatusSelect">
+          <option value="pending">Menunggu Konfirmasi</option>
+          <option value="paid">Dibayar</option>
+          <option value="shipping">Dikirim</option>
+          <option value="done">Selesai</option>
+          <option value="cancelled">Dibatalkan</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Catatan (opsional)</label>
+        <textarea class="form-input" rows="3" placeholder="Tambahkan catatan..."></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline modal-cancel">Batal</button>
+      <button class="btn btn-primary" onclick="updateStatus()">Update Status</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const transactions = [
+  { id:'GF-202600099', customer:'Aria Kusuma',     items:3, total:'Rp 285.000', method:'Transfer Bank', date:'22 Mei 2026', status:'pending'   },
+  { id:'GF-202600098', customer:'Bella Maharani',  items:1, total:'Rp 120.000', method:'GoPay',         date:'22 Mei 2026', status:'paid'      },
+  { id:'GF-202600097', customer:'Cinta Novalinda', items:2, total:'Rp 195.000', method:'OVO',           date:'21 Mei 2026', status:'shipping'  },
+  { id:'GF-202600096', customer:'Dinda Aurellia',  items:4, total:'Rp 420.000', method:'Transfer Bank', date:'21 Mei 2026', status:'done'      },
+  { id:'GF-202600095', customer:'Eka Prasetya',    items:1, total:'Rp 85.000',  method:'COD',           date:'20 Mei 2026', status:'done'      },
+  { id:'GF-202600094', customer:'Fara Wulandari',  items:2, total:'Rp 310.000', method:'Dana',          date:'20 Mei 2026', status:'shipping'  },
+  { id:'GF-202600093', customer:'Gilang Ramadhan', items:1, total:'Rp 150.000', method:'GoPay',         date:'19 Mei 2026', status:'done'      },
+  { id:'GF-202600092', customer:'Hani Salsabila',  items:3, total:'Rp 245.000', method:'Transfer Bank', date:'19 Mei 2026', status:'cancelled' },
+  { id:'GF-202600091', customer:'Indira Permata',  items:2, total:'Rp 180.000', method:'ShopeePay',     date:'18 Mei 2026', status:'done'      },
+  { id:'GF-202600090', customer:'Jihan Ramadhani', items:1, total:'Rp 95.000',  method:'COD',           date:'18 Mei 2026', status:'pending'   },
+];
+
+const statusConfig = {
+  pending:   { text:'Menunggu',   cls:'badge-gold'  },
+  paid:      { text:'Dibayar',    cls:'badge-green' },
+  shipping:  { text:'Dikirim',    cls:'badge-pink'  },
+  done:      { text:'Selesai',    cls:'badge-green' },
+  cancelled: { text:'Dibatalkan', cls:'badge-gray'  },
+};
+
+function renderTransactions(list) {
+  const tbody = document.getElementById('transactionsBody');
+  if (!tbody) return;
+  tbody.innerHTML = list.map(tx => `
+    <tr>
+      <td><input type="checkbox" style="accent-color:var(--pink-mid);"></td>
+      <td><span style="font-weight:600;font-size:13px;">${tx.id}</span></td>
+      <td><div style="font-weight:500;font-size:14px;">${tx.customer}</div></td>
+      <td style="color:var(--text-muted);">${tx.items} item</td>
+      <td><strong>${tx.total}</strong></td>
+      <td style="color:var(--text-muted);font-size:13px;">${tx.method}</td>
+      <td style="font-size:13px;color:var(--text-muted);white-space:nowrap;">${tx.date}</td>
+      <td><span class="badge ${statusConfig[tx.status].cls}">${statusConfig[tx.status].text}</span></td>
+      <td>
+        <div class="table-action-btns">
+          <button class="table-btn table-btn-view" title="Detail" onclick="viewDetail('${tx.id}')">👁</button>
+          <button class="table-btn table-btn-edit" title="Update" onclick="openStatusModal('${tx.id}')">✏️</button>
+          <button class="table-btn table-btn-delete" title="Hapus" onclick="showToast('🗑 Transaksi dihapus')">🗑</button>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+}
+
+renderTransactions(transactions);
+
+// Tab filter
+document.querySelectorAll('.admin-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    const f = tab.dataset.filter;
+    renderTransactions(f ? transactions.filter(t => t.status === f) : transactions);
+  });
+});
+
+// Search
+document.getElementById('tableSearch')?.addEventListener('input', e => {
+  const q = e.target.value.toLowerCase();
+  renderTransactions(transactions.filter(tx =>
+    tx.id.toLowerCase().includes(q) || tx.customer.toLowerCase().includes(q)
+  ));
+});
+
+// Check all
+document.getElementById('checkAll')?.addEventListener('change', e => {
+  document.querySelectorAll('#transactionsBody input[type="checkbox"]').forEach(cb => cb.checked = e.target.checked);
+});
+
+function viewDetail(id) {
+  const tx = transactions.find(t => t.id === id);
+  if (!tx) return;
+  document.getElementById('txDetailContent').innerHTML = `
+    ${[['ID Pesanan',tx.id],['Pelanggan',tx.customer],['Total',tx.total],['Metode',tx.method],['Tanggal',tx.date]].map(([k,v]) => `
+      <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border-soft);font-size:14px;">
+        <span style="color:var(--text-muted);">${k}</span><strong>${v}</strong>
+      </div>`).join('')}
+    <div style="display:flex;justify-content:space-between;padding:10px 0;font-size:14px;">
+      <span style="color:var(--text-muted);">Status</span>
+      <span class="badge ${statusConfig[tx.status].cls}">${statusConfig[tx.status].text}</span>
+    </div>
+    <div style="margin-top:20px;">
+      <div style="font-size:12px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px;">Item Pesanan</div>
+      ${Array(tx.items).fill(0).map((_,i) => `
+        <div style="display:flex;align-items:center;gap:12px;padding:10px;background:var(--bg-soft);border-radius:var(--radius-sm);margin-bottom:8px;">
+          <div style="width:40px;height:40px;background:var(--border-soft);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:18px;">👗</div>
+          <div style="flex:1;">
+            <div style="font-size:14px;font-weight:500;">Item Thrift #${i+1}</div>
+            <div style="font-size:12px;color:var(--text-muted);">Ukuran M · Kondisi: Seperti Baru</div>
+          </div>
+          <div style="font-weight:600;font-size:13px;">Rp ${(85+i*35).toLocaleString('id-ID')}.000</div>
+        </div>`).join('')}
+    </div>
+    <div style="display:flex;gap:12px;margin-top:20px;">
+      <button class="btn btn-outline" style="flex:1;" onclick="closeModal('txDetailModal')">Tutup</button>
+      <button class="btn btn-primary" style="flex:1;" onclick="closeModal('txDetailModal');openStatusModal('${tx.id}')">Update Status</button>
+    </div>`;
+  openModal('txDetailModal');
+}
+
+let currentTxId = null;
+function openStatusModal(id) { currentTxId = id; openModal('txStatusModal'); }
+function updateStatus() {
+  const s = document.getElementById('newStatusSelect').value;
+  showToast(`✅ Status ${currentTxId} → ${statusConfig[s].text}`);
+  closeModal('txStatusModal');
+}
+
+function openModal(id)  { document.getElementById(id)?.classList.add('open'); }
+function closeModal(id) { document.getElementById(id)?.classList.remove('open'); }
+document.querySelectorAll('.modal-close, .modal-cancel').forEach(btn => {
+  btn.addEventListener('click', () => document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('open')));
+});
+</script>
+<script src="js/main.js?v=4"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>

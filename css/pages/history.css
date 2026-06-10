@@ -1,0 +1,76 @@
+.history-section{padding:48px 0 80px}
+
+/* HEADER */
+.history-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:36px;flex-wrap:wrap;gap:16px}
+.history-title{font-family:var(--font-display);font-size:36px;font-weight:700;color:var(--text-main);margin-bottom:6px}
+.history-subtitle{font-size:14px;color:var(--text-muted)}
+
+/* FILTER TABS */
+.history-filters{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.history-filter-btn{padding:8px 18px;border-radius:var(--radius-full);font-size:13px;font-weight:500;border:1.5px solid var(--border-soft);color:var(--text-muted);background:var(--white);cursor:pointer;transition:var(--transition);white-space:nowrap}
+.history-filter-btn:hover{border-color:var(--pink-light);color:var(--pink-mid)}
+.history-filter-btn.active{background:var(--pink-mid);border-color:var(--pink-mid);color:var(--white)}
+
+/* CARD LIST */
+.history-items{display:flex;flex-direction:column;gap:20px}
+
+.history-card{background:var(--white);border:1px solid var(--border-soft);border-radius:var(--radius-md);overflow:hidden;transition:var(--transition)}
+.history-card:hover{box-shadow:0 8px 32px var(--shadow-soft);border-color:var(--border-mid)}
+
+/* CARD HEADER */
+.history-card-header{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;background:var(--bg-soft);border-bottom:1px solid var(--border-soft);flex-wrap:wrap;gap:12px}
+.history-order-id{font-size:15px;font-weight:700;color:var(--text-main);font-family:var(--font-display)}
+.history-order-date{font-size:12px;color:var(--text-muted);margin-top:3px}
+
+/* CARD BODY */
+.history-card-body{padding:24px}
+
+/* ITEMS ROW */
+.history-items-row{display:flex;gap:24px;margin-bottom:20px;flex-wrap:wrap}
+.history-item-row-group{display:flex;align-items:flex-start;gap:12px;flex:1;min-width:200px}
+.history-item-thumb{width:64px;height:80px;border-radius:var(--radius-sm);background:linear-gradient(135deg,var(--bg-soft),var(--border-soft));display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0;border:1px solid var(--border-soft);overflow:hidden}
+.history-item-thumb .history-item-thumb-tag{width:100%;height:100%;object-fit:cover}
+.history-item-info{flex:1;min-width:0}
+.history-item-name{font-size:14px;font-weight:500;color:var(--text-main);margin-bottom:5px;line-height:1.4}
+.history-item-meta{font-size:12px;color:var(--text-muted)}
+
+/* CARD FOOTER */
+.history-card-footer{display:flex;align-items:center;justify-content:space-between;padding-top:20px;border-top:1px solid var(--border-soft);flex-wrap:wrap;gap:12px}
+.history-total-label{font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px}
+.history-total-value{font-family:var(--font-display);font-size:22px;font-weight:700;color:var(--text-main)}
+.history-actions{display:flex;gap:8px;flex-wrap:wrap}
+
+/* TRACKING BAR */
+.history-tracking{display:flex;align-items:flex-start;margin-bottom:20px;padding:16px 20px;background:var(--bg-soft);border-radius:var(--radius-sm);border:1px solid var(--border-soft)}
+.tracking-step{display:flex;flex-direction:column;align-items:center;flex:1;position:relative}
+.tracking-step::after{content:'';position:absolute;top:11px;left:50%;width:100%;height:2px;background:var(--border-soft);z-index:0}
+.tracking-step:last-child::after{display:none}
+.tracking-step.done::after{background:var(--pink-mid)}
+.tracking-dot{width:24px;height:24px;border-radius:50%;border:2px solid var(--border-mid);background:var(--white);display:flex;align-items:center;justify-content:center;font-size:11px;position:relative;z-index:1;flex-shrink:0}
+.tracking-dot.done{background:var(--pink-mid);border-color:var(--pink-mid);color:var(--white);font-size:10px}
+.tracking-dot.active{background:var(--white);border-color:var(--pink-mid);box-shadow:0 0 0 3px rgba(220,100,140,.15)}
+.tracking-label{font-size:11px;color:var(--text-light);margin-top:7px;white-space:nowrap;text-align:center}
+.tracking-step.done .tracking-label,.tracking-step.active .tracking-label{color:var(--pink-mid);font-weight:500}
+
+/* EMPTY STATE */
+.history-empty{text-align:center;padding:80px 40px;display:flex;flex-direction:column;align-items:center}
+.history-empty-icon{font-size:72px;margin-bottom:20px;opacity:.5}
+.history-empty-title{font-family:var(--font-display);font-size:24px;font-weight:600;color:var(--text-main);margin-bottom:10px}
+.history-empty-desc{font-size:15px;color:var(--text-muted);margin-bottom:28px}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .history-header{flex-direction:column;align-items:flex-start}
+  .history-card-header{flex-direction:column;align-items:flex-start}
+  .history-items-row{gap:16px}
+  .history-item-row-group{min-width:160px}
+  .history-card-body{padding:16px}
+  .history-card-footer{flex-direction:column;align-items:flex-start}
+  .history-actions{width:100%}
+  .history-actions .btn{flex:1;justify-content:center}
+}
+@media(max-width:480px){
+  .history-filters{gap:6px}
+  .history-filter-btn{font-size:12px;padding:6px 14px}
+  .history-title{font-size:28px}
+}

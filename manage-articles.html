@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kelola Artikel — GoodFinds Admin</title>
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages/admin.css">
+  <script src="js/auth.js"></script>
+  <script>const _gfAdminSession = gfRequireAdmin(); if(!_gfAdminSession) throw new Error("Not admin");</script>
+</head>
+<body>
+<div class="admin-layout">
+
+  <aside class="admin-sidebar">
+    <div class="admin-sidebar-logo">
+      <div class="admin-sidebar-logo-text">Good<span>Finds</span></div>
+      <div class="admin-sidebar-role">Admin Panel</div>
+    </div>
+    <nav class="admin-nav">
+      <div class="admin-nav-section">Utama</div>
+      <a href="dashboard.html" class="admin-nav-link"><span class="nav-icon">📊</span> Dashboard</a>
+      <div class="admin-nav-section">Konten</div>
+      <a href="manage-articles.html" class="admin-nav-link active"><span class="nav-icon">📝</span> Kelola Artikel</a>
+      <a href="manage-products.html" class="admin-nav-link"><span class="nav-icon">👗</span> Kelola Produk</a>
+      <div class="admin-nav-section">Data</div>
+      <a href="manage-users.html" class="admin-nav-link"><span class="nav-icon">👥</span> Kelola Pengguna</a>
+      <a href="manage-transactions.html" class="admin-nav-link"><span class="nav-icon">💳</span> Kelola Transaksi</a>
+      <div class="admin-nav-section">Sistem</div>
+      <a href="index.html" class="admin-nav-link"><span class="nav-icon">🌐</span> Lihat Website</a>
+      <a href="#" class="admin-nav-link" onclick="gfLogout();return false;"><span class="nav-icon">🚪</span> Keluar</a>
+    </nav>
+  </aside>
+
+  <div class="admin-main">
+
+    <!-- TOPBAR -->
+    <div class="admin-topbar">
+      <div class="admin-topbar-left">
+        <div class="admin-topbar-title">Kelola Artikel</div>
+        <div class="admin-topbar-breadcrumb">Admin Panel &nbsp;›&nbsp; Kelola Artikel</div>
+      </div>
+      <div class="admin-topbar-right">
+        <button class="admin-topbar-notif" onclick="showToast('🔔 Tidak ada notifikasi baru')">
+          🔔 <span class="admin-notif-badge">3</span>
+        </button>
+        <div class="admin-topbar-user">
+          <div class="admin-topbar-avatar">A</div>
+          <div class="admin-topbar-userinfo">
+            <div class="admin-topbar-username">Admin</div>
+            <div class="admin-topbar-userrole">Super Admin</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="admin-content">
+      <div class="admin-page-header">
+        <div>
+          <h1 class="admin-page-title">Kelola Artikel</h1>
+          <p class="admin-page-desc">Total <strong>12</strong> artikel dipublikasikan</p>
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="openModal('articleModal')">+ Tambah Artikel</button>
+      </div>
+
+      <!-- MINI STATS -->
+      <div class="admin-stat-row">
+        <div class="admin-mini-stat">
+          <div class="admin-mini-stat-label">Total Artikel</div>
+          <div class="admin-mini-stat-value">12</div>
+          <div class="admin-mini-stat-change">↑ 3 bulan ini</div>
+        </div>
+        <div class="admin-mini-stat">
+          <div class="admin-mini-stat-label">Published</div>
+          <div class="admin-mini-stat-value">10</div>
+          <div class="admin-mini-stat-change" style="color:#2E7D32;">● Aktif</div>
+        </div>
+        <div class="admin-mini-stat">
+          <div class="admin-mini-stat-label">Draft</div>
+          <div class="admin-mini-stat-value">2</div>
+          <div class="admin-mini-stat-change" style="color:var(--text-light);">● Belum tayang</div>
+        </div>
+        <div class="admin-mini-stat">
+          <div class="admin-mini-stat-label">Total Views</div>
+          <div class="admin-mini-stat-value">24,8k</div>
+          <div class="admin-mini-stat-change">↑ 12% bulan ini</div>
+        </div>
+      </div>
+
+      <!-- TOOLBAR -->
+      <div class="admin-toolbar">
+        <div class="admin-search" style="max-width:300px;flex:1;">
+          <span class="admin-search-icon">🔍</span>
+          <input type="text" id="tableSearch" placeholder="Cari judul artikel...">
+        </div>
+        <select class="admin-filter-select">
+          <option>Semua Kategori</option>
+          <option>Style Guide</option>
+          <option>Sustainability</option>
+          <option>Tips &amp; Trik</option>
+          <option>Berita</option>
+          <option>Brand Spotlight</option>
+        </select>
+        <select class="admin-filter-select">
+          <option>Semua Status</option>
+          <option>Published</option>
+          <option>Draft</option>
+        </select>
+        <button class="btn btn-ghost btn-sm" onclick="showToast('📥 Mengekspor data artikel...')">⬇ Ekspor</button>
+      </div>
+
+      <!-- CATEGORY TABS -->
+      <div class="admin-tabs">
+        <button class="admin-tab active" onclick="filterTableCat(this,'')">Semua</button>
+        <button class="admin-tab" onclick="filterTableCat(this,'Style')">Style Guide</button>
+        <button class="admin-tab" onclick="filterTableCat(this,'Sustainability')">Sustainability</button>
+        <button class="admin-tab" onclick="filterTableCat(this,'Tips')">Tips &amp; Trik</button>
+        <button class="admin-tab" onclick="filterTableCat(this,'Brand')">Brand Spotlight</button>
+        <button class="admin-tab" onclick="filterTableCat(this,'Berita')">Berita</button>
+      </div>
+
+      <!-- TABLE -->
+      <div class="table-wrapper">
+        <table class="data-table" id="articleTable">
+          <thead>
+            <tr>
+              <th>Judul</th>
+              <th>Kategori</th>
+              <th>Penulis</th>
+              <th>Tanggal</th>
+              <th>Views</th>
+              <th>Status</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>5 Cara Mix &amp; Match Outfit Thrift Coquette</strong></td>
+              <td><span class="badge badge-pink">Style Guide</span></td>
+              <td>Rara Putri</td>
+              <td>5 Mei 2026</td>
+              <td>8.240</td>
+              <td><span class="badge badge-green">Published</span></td>
+              <td>
+                <div class="table-action-btns">
+                  <button class="table-btn table-btn-view" title="Preview" onclick="showToast('👁 Membuka preview artikel...')">👁</button>
+                  <button class="table-btn table-btn-edit" title="Edit" onclick="openModal('articleModal')">✏️</button>
+                  <button class="table-btn table-btn-delete" title="Hapus">🗑</button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Kenapa Belanja Thrift Tindakan Nyata untuk Bumi</strong></td>
+              <td><span class="badge badge-green">Sustainability</span></td>
+              <td>Dito Arya</td>
+              <td>2 Mei 2026</td>
+              <td>5.130</td>
+              <td><span class="badge badge-green">Published</span></td>
+              <td>
+                <div class="table-action-btns">
+                  <button class="table-btn table-btn-view" title="Preview" onclick="showToast('👁 Preview...')">👁</button>
+                  <button class="table-btn table-btn-edit" title="Edit" onclick="openModal('articleModal')">✏️</button>
+                  <button class="table-btn table-btn-delete" title="Hapus">🗑</button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Panduan Lengkap Belanja Thrift Online bagi Pemula</strong></td>
+              <td><span class="badge badge-gold">Tips &amp; Trik</span></td>
+              <td>Sari Lestari</td>
+              <td>28 Apr 2026</td>
+              <td>3.890</td>
+              <td><span class="badge badge-green">Published</span></td>
+              <td>
+                <div class="table-action-btns">
+                  <button class="table-btn table-btn-view" title="Preview" onclick="showToast('👁 Preview...')">👁</button>
+                  <button class="table-btn table-btn-edit" title="Edit" onclick="openModal('articleModal')">✏️</button>
+                  <button class="table-btn table-btn-delete" title="Hapus">🗑</button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Zara Archive: Kenapa Koleksi Lama Lebih Bernilai</strong></td>
+              <td><span class="badge badge-blue">Brand Spotlight</span></td>
+              <td>Mia Hartono</td>
+              <td>20 Apr 2026</td>
+              <td>2.540</td>
+              <td><span class="badge badge-green">Published</span></td>
+              <td>
+                <div class="table-action-btns">
+                  <button class="table-btn table-btn-view" title="Preview" onclick="showToast('👁 Preview...')">👁</button>
+                  <button class="table-btn table-btn-edit" title="Edit" onclick="openModal('articleModal')">✏️</button>
+                  <button class="table-btn table-btn-delete" title="Hapus">🗑</button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Aesthetic Coquette: Panduan Lengkap untuk Pemula</strong></td>
+              <td><span class="badge badge-pink">Style Guide</span></td>
+              <td>Rara Putri</td>
+              <td>15 Apr 2026</td>
+              <td>4.110</td>
+              <td><span class="badge badge-green">Published</span></td>
+              <td>
+                <div class="table-action-btns">
+                  <button class="table-btn table-btn-view" title="Preview" onclick="showToast('👁 Preview...')">👁</button>
+                  <button class="table-btn table-btn-edit" title="Edit" onclick="openModal('articleModal')">✏️</button>
+                  <button class="table-btn table-btn-delete" title="Hapus">🗑</button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td><strong>[DRAFT] Tren Thrift 2026: Apa yang Akan Populer?</strong></td>
+              <td><span class="badge badge-pink">Style Guide</span></td>
+              <td>Rara Putri</td>
+              <td>—</td>
+              <td>—</td>
+              <td><span class="badge badge-gray">Draft</span></td>
+              <td>
+                <div class="table-action-btns">
+                  <button class="table-btn table-btn-edit" title="Edit" onclick="openModal('articleModal')">✏️</button>
+                  <button class="table-btn table-btn-delete" title="Hapus">🗑</button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- PAGINATION -->
+        <div class="table-pagination">
+          <span class="table-pagination-info">Menampilkan 1–6 dari 12 artikel</span>
+          <div class="table-pagination-btns">
+            <button class="tpag-btn">←</button>
+            <button class="tpag-btn active">1</button>
+            <button class="tpag-btn">2</button>
+            <button class="tpag-btn">→</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- MODAL TAMBAH/EDIT ARTIKEL -->
+<div class="modal-overlay" id="articleModal">
+  <div class="modal" style="max-width:640px;">
+    <div class="modal-header">
+      <h3 class="modal-title">Tambah / Edit Artikel</h3>
+      <button class="modal-close" onclick="closeModal('articleModal')">×</button>
+    </div>
+    <div class="modal-form">
+      <div class="form-group">
+        <label class="form-label">Judul Artikel *</label>
+        <input type="text" class="form-input" placeholder="Masukkan judul yang menarik...">
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div class="form-group">
+          <label class="form-label">Kategori</label>
+          <select class="form-input form-select">
+            <option>Style Guide</option>
+            <option>Sustainability</option>
+            <option>Tips &amp; Trik</option>
+            <option>Berita</option>
+            <option>Brand Spotlight</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Penulis</label>
+          <input type="text" class="form-input" placeholder="Nama penulis">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Ringkasan / Excerpt *</label>
+        <textarea class="form-input" placeholder="Ringkasan singkat artikel (maks. 160 karakter)..." style="min-height:80px;"></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Konten Artikel *</label>
+        <textarea class="form-input" placeholder="Tulis konten artikel di sini..." style="min-height:160px;"></textarea>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div class="form-group">
+          <label class="form-label">Cover Image URL</label>
+          <input type="url" class="form-input" placeholder="https://...">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Status</label>
+          <select class="form-input form-select">
+            <option>Draft</option>
+            <option>Published</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost btn-sm modal-cancel" onclick="closeModal('articleModal')">Batal</button>
+      <button class="btn btn-primary" onclick="showToast('✅ Artikel berhasil disimpan!');closeModal('articleModal')">Simpan Artikel</button>
+    </div>
+  </div>
+</div>
+
+<script src="js/main.js?v=4"></script>
+<script src="js/admin.js"></script>
+<script>
+function filterTableCat(el, cat) {
+  document.querySelectorAll('.admin-tab').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  document.querySelectorAll('#articleTable tbody tr').forEach(row => {
+    row.style.display = (!cat || row.textContent.includes(cat)) ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>

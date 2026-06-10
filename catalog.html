@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Katalog — GoodFinds</title>
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages/catalog.css">
+  <script src="js/auth.js"></script>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="index.html" class="navbar-logo">Good<span>Finds</span></a>
+    <div class="navbar-nav">
+      <a href="catalog.html" class="navbar-link active">Katalog</a>
+      <a href="articles.html" class="navbar-link">Artikel</a>
+      <a href="index.html#why" class="navbar-link">Tentang</a>
+    </div>
+    <div class="navbar-actions">
+      <a href="cart.html" class="navbar-icon-btn" title="Keranjang">🛒<span class="navbar-cart-count" id="cartCount">0</span></a>
+      <a href="login.html" class="btn btn-primary btn-sm navbar-login-btn">Masuk</a>
+      <div class="navbar-user-menu" style="display:none; align-items:center; gap:10px;">
+        <span style="font-size:13px; color:var(--text-muted);">Hai, <strong class="navbar-user-name"></strong></span>
+        <a href="history.html" class="btn btn-ghost btn-sm">Pesanan</a>
+        <button class="btn btn-outline btn-sm" onclick="gfLogout()">Keluar</button>
+      </div>
+    </div>
+    <button class="navbar-hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="navbar-mobile-drawer" id="mobileDrawer">
+  <a href="catalog.html" class="navbar-mobile-link">Katalog</a>
+  <a href="articles.html" class="navbar-mobile-link">Artikel</a>
+  <a href="index.html#why" class="navbar-mobile-link">Tentang</a>
+  <div class="navbar-mobile-actions">
+    <a href="cart.html" class="btn btn-outline btn-sm" style="flex:1">🛒 Keranjang</a>
+    <a href="login.html" class="btn btn-primary btn-sm" style="flex:1">Masuk</a>
+  </div>
+</div>
+
+<div class="confetti-container" id="confettiContainer"></div>
+<div class="live-drop-toast" id="liveDropToast">🎉 New Drop is Live! Happy hunting ♡</div>
+
+<div class="catalog-hero">
+  <div class="container">
+    <div class="breadcrumb" style="padding-top:0;margin-bottom:12px;">
+      <a href="index.html">Home</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Katalog</span>
+    </div>
+    <h1 class="catalog-hero-title">Katalog Produk</h1>
+    <p class="catalog-hero-desc">Ratusan item thrift pilihan, siap untuk menemani hari-harimu ✨</p>
+    <div class="catalog-drop-banner">
+      <span class="catalog-drop-live">● LIVE</span>
+      <span>New Drop sudah aktif! 500+ item baru siap diburu</span>
+      <a href="#" class="catalog-drop-link">Lihat semua →</a>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="catalog-layout">
+
+    <aside class="catalog-sidebar">
+      <div class="filter-card">
+        <div class="filter-title">Kategori <span>▾</span></div>
+        <div class="filter-options">
+          <label class="filter-option"><input type="checkbox" class="filter-checkbox" value="all" checked><span class="filter-option-label">Semua</span><span class="filter-option-count">248</span></label>
+          <label class="filter-option"><input type="checkbox" class="filter-checkbox" value="atasan"><span class="filter-option-label">Atasan</span><span class="filter-option-count">84</span></label>
+          <label class="filter-option"><input type="checkbox" class="filter-checkbox" value="bawahan"><span class="filter-option-label">Bawahan</span><span class="filter-option-count">62</span></label>
+          <label class="filter-option"><input type="checkbox" class="filter-checkbox" value="dress"><span class="filter-option-label">Dress</span><span class="filter-option-count">47</span></label>
+          <label class="filter-option"><input type="checkbox" class="filter-checkbox" value="outer"><span class="filter-option-label">Outer</span><span class="filter-option-count">32</span></label>
+          <label class="filter-option"><input type="checkbox" class="filter-checkbox" value="tas"><span class="filter-option-label">Tas</span><span class="filter-option-count">23</span></label>
+        </div>
+      </div>
+
+      <div class="filter-card">
+        <div class="filter-title">Harga <span>▾</span></div>
+        <div class="price-range">
+          <div class="price-range-inputs">
+            <input type="number" class="price-input" placeholder="Min" value="0">
+            <span style="color:var(--text-light);flex-shrink:0;">—</span>
+            <input type="number" class="price-input" placeholder="Max" value="3000000">
+          </div>
+          <button class="btn btn-outline btn-sm" style="width:100%;">Terapkan</button>
+        </div>
+      </div>
+
+      <div class="filter-card">
+        <div class="filter-title">Ukuran <span>▾</span></div>
+        <div class="size-filter-grid">
+          <button class="size-btn">XS</button>
+          <button class="size-btn">S</button>
+          <button class="size-btn">M</button>
+          <button class="size-btn">L</button>
+          <button class="size-btn">XL</button>
+          <button class="size-btn">XXL</button>
+        </div>
+      </div>
+
+      <button class="btn btn-ghost btn-sm" style="width:100%;">Reset Semua Filter</button>
+    </aside>
+
+    <div class="catalog-main">
+
+      <div class="catalog-toolbar">
+        <span class="catalog-count">Menampilkan <strong>9</strong> item</span>
+        <div class="catalog-sort">
+          <span class="catalog-sort-label">Urutkan:</span>
+          <select class="sort-select">
+            <option>Terbaru</option>
+            <option>Harga Terendah</option>
+            <option>Harga Tertinggi</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="catalog-grid">
+        <div class="product-card" data-category="atasan" data-price="120000" data-size="M">
+          <div class="product-card-img">
+            <img src="https://i.pinimg.com/736x/92/56/90/92569033684352512f1551d915fa6724.jpg" alt="Cream Blazer Oversize" class="product-card-img-tag">
+            <div class="product-card-badges"><span class="badge badge-pink">New Drop</span></div>
+            <button class="product-card-wishlist">🤍</button>
+          </div>
+          <div class="product-card-body">
+            <div class="product-card-brand">Zara</div>
+            <div class="product-card-name">Cream Blazer Oversize</div>
+            <div class="product-card-price">
+              <span class="product-card-price-main">Rp 120.000</span>
+              <span class="product-card-price-original">Rp 320.000</span>
+            </div>
+            <button class="product-card-add">+ Keranjang</button>
+          </div>
+        </div>
+
+        <div class="product-card" data-category="dress" data-price="85000" data-size="S">
+          <div class="product-card-img">
+            <img src="https://i.pinimg.com/736x/c3/03/b5/c303b5ebe83835ef253b8acf76261c6b.jpg" alt="Floral Midi Dress" class="product-card-img-tag">
+            <div class="product-card-badges"><span class="badge badge-gold">Bestseller</span></div>
+            <button class="product-card-wishlist">🤍</button>
+          </div>
+          <div class="product-card-body">
+            <div class="product-card-brand">H&amp;M</div>
+            <div class="product-card-name">Floral Midi Dress</div>
+            <div class="product-card-price">
+              <span class="product-card-price-main">Rp 85.000</span>
+              <span class="product-card-price-original">Rp 250.000</span>
+            </div>
+            <button class="product-card-add">+ Keranjang</button>
+          </div>
+        </div>
+
+        <div class="product-card" data-category="tas" data-price="280000" data-size="XS">
+          <div class="product-card-img">
+            <img src="https://i.pinimg.com/736x/ab/d5/85/abd5853b05d4fb35293e72d868cc863c.jpg" alt="Mini Shoulder Bag" class="product-card-img-tag">
+            <div class="product-card-badges"><span class="badge badge-pink">Rare Find</span></div>
+            <button class="product-card-wishlist">🤍</button>
+          </div>
+          <div class="product-card-body">
+            <div class="product-card-brand">Gucci Archive</div>
+            <div class="product-card-name">Mini Shoulder Bag</div>
+            <div class="product-card-price">
+              <span class="product-card-price-main">Rp 280.000</span>
+              <span class="product-card-price-original">Rp 800.000</span>
+            </div>
+            <button class="product-card-add">+ Keranjang</button>
+          </div>
+        </div>
+
+        <div class="product-card" data-category="outer" data-price="195000" data-size="L">
+          <div class="product-card-img">
+            <img src="https://i.pinimg.com/736x/73/b6/db/73b6db2ff99bca9f800d106ced337f3b.jpg" alt="Air Max 90 Retro" class="product-card-img-tag">
+            <button class="product-card-wishlist">🤍</button>
+          </div>
+          <div class="product-card-body">
+            <div class="product-card-brand">Nike Vintage</div>
+            <div class="product-card-name">Air Max 90 Retro</div>
+            <div class="product-card-price">
+              <span class="product-card-price-main">Rp 195.000</span>
+              <span class="product-card-price-original">Rp 450.000</span>
+            </div>
+            <button class="product-card-add">+ Keranjang</button>
+          </div>
+        </div>
+
+        <div class="product-card" data-category="atasan" data-price="85000" data-size="XL">
+          <div class="product-card-img">
+            <img src="https://i.pinimg.com/1200x/4f/a9/53/4fa953837f57484700f43c53fec82ff3.jpg" alt="Flannel Shirt Oversized Grey" class="product-card-img-tag">
+            <div class="product-card-badges"><span class="badge badge-gold">New Drop</span></div>
+            <button class="product-card-wishlist">🤍</button>
+          </div>
+          <div class="product-card-body">
+            <div class="product-card-brand">Uniqlo</div>
+            <div class="product-card-name">Flannel Shirt Oversized Grey</div>
+            <div class="product-card-price">
+              <span class="product-card-price-main">Rp 85.000</span>
+              <span class="product-card-price-original">Rp 180.000</span>
+            </div>
+            <button class="product-card-add">+ Keranjang</button>
+          </div>
+        </div>
+
+        <div class="product-card" data-category="atasan" data-price="55000" data-size="S">
+          <div class="product-card-img">
+            <img src="https://i.pinimg.com/1200x/8b/f3/25/8bf325444a9fd9d8a2d99dc2c38cd95d.jpg" alt="Knit Crop Top Sage Green" class="product-card-img-tag">
+            <button class="product-card-wishlist">🤍</button>
+          </div>
+          <div class="product-card-body">
+            <div class="product-card-brand">Stradivarius</div>
+            <div class="product-card-name">Knit Crop Top Sage Green</div>
+            <div class="product-card-price">
+              <span class="product-card-price-main">Rp 55.000</span>
+              <span class="product-card-price-original">Rp 150.000</span>
+            </div>
+            <button class="product-card-add">+ Keranjang</button>
+          </div>
+        </div>
+
+        <div class="product-card" data-category="outer" data-price="145000" data-size="XXL">
+          <div class="product-card-img">
+            <img src="https://i.pinimg.com/1200x/a4/44/39/a444393914fb13f1814b5d346f707a3e.jpg" alt="Wool Scarf Plaid Pattern" class="product-card-img-tag">
+            <div class="product-card-badges"><span class="badge badge-pink">Rare Find</span></div>
+            <button class="product-card-wishlist">🤍</button>
+          </div>
+          <div class="product-card-body">
+            <div class="product-card-brand">Loewe Archive</div>
+            <div class="product-card-name">Wool Scarf Plaid Pattern</div>
+            <div class="product-card-price">
+              <span class="product-card-price-main">Rp 145.000</span>
+              <span class="product-card-price-original">Rp 420.000</span>
+            </div>
+            <button class="product-card-add">+ Keranjang</button>
+          </div>
+        </div>
+
+        <div class="product-card" data-category="bawahan" data-price="275000" data-size="L">
+          <div class="product-card-img">
+            <img src="https://i.pinimg.com/736x/a6/f7/e4/a6f7e4b669f8c6b908e65030c13a0188.jpg" alt="High-Waist Straight Jeans" class="product-card-img-tag">
+            <button class="product-card-wishlist">🤍</button>
+          </div>
+          <div class="product-card-body">
+            <div class="product-card-brand">Levi's</div>
+            <div class="product-card-name">High-Waist Straight Jeans</div>
+            <div class="product-card-price">
+              <span class="product-card-price-main">Rp 275.000</span>
+              <span class="product-card-price-original">Rp 480.000</span>
+            </div>
+            <button class="product-card-add">+ Keranjang</button>
+          </div>
+        </div>
+
+        <div class="product-card" data-category="outer" data-price="2500000" data-size="M">
+          <div class="product-card-img">
+            <img src="https://i.pinimg.com/1200x/10/2c/4d/102c4d60854b0604923c0d44f30413a4.jpg" alt="Gold Chain Necklace Set" class="product-card-img-tag">
+            <div class="product-card-badges"><span class="badge badge-gold">New Drop</span></div>
+            <button class="product-card-wishlist">🤍</button>
+          </div>
+          <div class="product-card-body">
+            <div class="product-card-brand">Vintage Accessories</div>
+            <div class="product-card-name">Gold Chain Necklace Set</div>
+            <div class="product-card-price">
+              <span class="product-card-price-main">Rp 2.500.000</span>
+              <span class="product-card-price-original">Rp 8.000.000</span>
+            </div>
+            <button class="product-card-add">+ Keranjang</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="pagination">
+        <button class="page-btn active">1</button>
+        <button class="page-btn">→</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <a href="index.html" class="footer-brand">Good<span>Finds</span></a>
+        <p class="footer-tagline">Thrift yang dikurasi, style yang autentik, dan pilihan yang baik untuk bumi.</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2026 GoodFinds. All rights reserved.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+<script src="js/catalog.js"></script>
+<script>if(typeof gfUpdateNavbar==='function') gfUpdateNavbar();</script>
+</body>
+</html>

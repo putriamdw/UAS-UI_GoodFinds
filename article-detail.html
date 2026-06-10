@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Artikel — GoodFinds</title>
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages/articles.css">
+  <link rel="stylesheet" href="css/pages/article-detail.css">
+  <script src="js/auth.js"></script>
+  <script src="js/articles-data.js"></script>
+  <style>
+    .article-author-avatar img,
+    .sidebar-author-avatar img {
+      width: 100% !important;
+      height: 100% !important;
+      border-radius: 50% !important;
+      object-fit: cover !important;
+      display: block !important;
+    }
+
+    .sidebar-author-avatar {
+      width: 85px !important;
+      height: 85px !important;
+      margin: 0 auto 15px auto !important;
+      border-radius: 50% !important;
+      overflow: hidden !important;
+      background-color: #f7f7f7 !important;
+      border: 2px solid #ffd1dc !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+    }
+
+    .sidebar-related-thumb {
+      overflow: hidden !important;
+    }
+    .sidebar-related-img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      object-position: center;
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="index.html" class="navbar-logo">Good<span>Finds</span></a>
+    <div class="navbar-nav">
+      <a href="catalog.html" class="navbar-link">Katalog</a>
+      <a href="articles.html" class="navbar-link active">Artikel</a>
+      <a href="index.html#why" class="navbar-link">Tentang</a>
+    </div>
+    <div class="navbar-actions">
+      <a href="cart.html" class="navbar-icon-btn" title="Keranjang">🛒<span class="navbar-cart-count" id="cartCount">0</span></a>
+      <a href="login.html" class="btn btn-primary btn-sm navbar-login-btn">Masuk</a>
+        <div class="navbar-user-menu" style="display:none; align-items:center; gap:10px;">
+          <span style="font-size:13px; color:var(--text-muted);">Hai, <strong class="navbar-user-name"></strong></span>
+          <a href="history.html" class="btn btn-ghost btn-sm">Pesanan</a>
+          <button class="btn btn-outline btn-sm" onclick="gfLogout()">Keluar</button>
+        </div>
+    </div>
+    <button class="navbar-hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="navbar-mobile-drawer" id="mobileDrawer">
+  <a href="catalog.html" class="navbar-mobile-link">Katalog</a>
+  <a href="articles.html" class="navbar-mobile-link">Artikel</a>
+  <a href="index.html#why" class="navbar-mobile-link">Tentang</a>
+  <div class="navbar-mobile-actions">
+    <a href="cart.html" class="btn btn-outline btn-sm" style="flex:1">🛒 Keranjang</a>
+    <a href="login.html" class="btn btn-primary btn-sm" style="flex:1">Masuk</a>
+  </div>
+</div>
+
+<div class="container">
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span class="breadcrumb-sep">›</span>
+    <a href="articles.html">Artikel</a><span class="breadcrumb-sep">›</span>
+    <span class="breadcrumb-current" id="breadcrumbTitle">Loading...</span>
+  </div>
+</div>
+
+<div class="article-detail-section">
+  <div class="container">
+    <div class="article-detail-layout">
+
+      <article id="articleContent">
+        <div class="article-loading">Loading article...</div>
+      </article>
+
+      <aside class="article-sidebar">
+        <div class="sidebar-card sidebar-card-center" id="authorCard">
+          </div>
+
+        <div class="sidebar-card" id="relatedCard">
+          </div>
+
+        <div class="sidebar-cta">
+          <div class="sidebar-cta-icon">🛍</div>
+          <h4 class="sidebar-cta-title">Drop Berikutnya</h4>
+          <p class="sidebar-cta-desc">Jangan sampai kehabisan item favoritmu!</p>
+          <a href="catalog.html" class="btn sidebar-cta-btn">Lihat Katalog</a>
+        </div>
+      </aside>
+
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <a href="index.html" class="footer-brand">Good<span>Finds</span></a>
+        <p class="footer-tagline">Thrift yang dikurasi, style yang autentik, dan pilihan yang baik untuk bumi. Temukan gaya unikmu di GoodFinds.</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js?v=5"></script>
+<script>
+// Tautan Gambar Cadangan Statis Berwarna Pink & Fashionable jika CDN Utama Down
+const BACKUP_FASHION_IMG = "https://i.pinimg.com/736x/db/66/0b/db660b880850135e010ab5491482afa1.jpg";
+const BACKUP_AVATAR_IMG = "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80";
+
+function handleContentImageError(img) {
+  img.onerror = null;
+  img.src = BACKUP_FASHION_IMG;
+}
+
+function handleAvatarImageError(img) {
+  img.onerror = null;
+  img.src = BACKUP_AVATAR_IMG;
+}
+
+function loadArticle() {
+  const params = new URLSearchParams(window.location.search);
+  const articleId = params.get('id') || 'style-guide';
+  const article = getArticle(articleId);
+
+  document.title = article.title + ' — GoodFinds';
+  document.getElementById('breadcrumbTitle').textContent = article.title;
+
+  let articleHTML = `
+    <img src="${article.heroImage}" alt="${article.title}" class="article-hero-img" onerror="handleContentImageError(this)">
+
+    <div class="article-meta-bar">
+      <span class="badge ${article.categoryBadge}">${article.category}</span>
+      <span class="article-meta-date">${article.date}</span>
+      <span class="article-meta-sep">·</span>
+      <span class="article-meta-date">${article.readTime}</span>
+    </div>
+
+    <h1 class="article-title">${article.title}</h1>
+
+    <div class="article-author-bar">
+      <div class="article-author-avatar">
+        <img src="${article.author.avatar}" alt="${article.author.name}" onerror="handleAvatarImageError(this)">
+      </div>
+      <div>
+        <div class="article-author-name">${article.author.name}</div>
+        <div class="article-author-role">${article.author.role}</div>
+      </div>
+    </div>
+
+    <div class="article-body">
+  `;
+
+  article.sections.forEach(section => {
+    switch(section.type) {
+      case 'text':
+        articleHTML += `<p>${section.content}</p>`;
+        break;
+      case 'heading-text':
+        articleHTML += `<h2>${section.heading}</h2><p>${section.text}</p>`;
+        break;
+      case 'heading-image-text':
+        articleHTML += `
+          <h2>${section.heading}</h2>
+          <div class="article-section-img">
+            <img src="${section.image}" alt="${section.heading}" onerror="handleContentImageError(this)">
+          </div>
+          <p>${section.text}</p>
+        `;
+        break;
+      case 'blockquote':
+        articleHTML += `<blockquote class="article-blockquote">${section.content}</blockquote>`;
+        break;
+    }
+  });
+
+  articleHTML += `
+    <div class="article-cta-box">
+      <p class="article-cta-label">${article.cta.label}</p>
+      <h3 class="article-cta-title">${article.cta.title}</h3>
+      <a href="catalog.html" class="btn btn-primary">${article.cta.buttonText}</a>
+    </div>
+    </div>
+
+    <div class="article-share-bar">
+      <span class="article-share-label">Bagikan:</span>
+      <button onclick="showToast('🔗 Link disalin!')" class="btn btn-ghost btn-sm">📋 Salin Link</button>
+      <button onclick="showToast('📤 Dibagikan ke Instagram!')" class="btn btn-ghost btn-sm">📸 Instagram</button>
+    </div>
+  `;
+
+  document.getElementById('articleContent').innerHTML = articleHTML;
+
+  document.getElementById('authorCard').innerHTML = `
+    <div class="sidebar-author-avatar">
+      <img src="${article.author.avatar}" alt="${article.author.name}" onerror="handleAvatarImageError(this)">
+    </div>
+    <div class="sidebar-author-name">${article.author.name}</div>
+    <div class="sidebar-author-role">${article.author.role.split('·')[0]}</div>
+    <p class="sidebar-author-bio">${article.author.bio}</p>
+  `;
+
+  let relatedHTML = '<h4 class="sidebar-section-title">Artikel Terkait</h4>';
+  article.related.forEach((relatedId) => {
+    const related = getArticle(relatedId);
+    relatedHTML += `
+      <a href="article-detail.html?id=${related.id}" class="sidebar-related-link">
+        <div class="sidebar-related-thumb">
+          <img src="${related.heroImage}" alt="${related.title}" class="sidebar-related-img" onerror="handleContentImageError(this)">
+        </div>
+        <div>
+          <div class="sidebar-related-title">${related.title}</div>
+          <div class="sidebar-related-date">${related.date}</div>
+        </div>
+      </a>
+    `;
+  });
+  document.getElementById('relatedCard').innerHTML = relatedHTML;
+}
+
+document.addEventListener('DOMContentLoaded', loadArticle);
+if(typeof gfUpdateNavbar==='function') gfUpdateNavbar();
+</script>
+</body>
+</html>

@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pembayaran — GoodFinds</title>
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages/payment.css">
+  <script src="js/auth.js"></script>
+  <script>const _gfUserSession = gfRequireLogin(); if(!_gfUserSession) throw new Error("Not logged in");</script>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="index.html" class="navbar-logo">Good<span>Finds</span></a>
+    <div class="navbar-nav">
+      <a href="catalog.html" class="navbar-link">Katalog</a>
+      <a href="articles.html" class="navbar-link">Artikel</a>
+      <a href="index.html#why" class="navbar-link">Tentang</a>
+    </div>
+    <div class="navbar-actions">
+      <a href="cart.html" class="navbar-icon-btn">🛒<span class="navbar-cart-count">3</span></a>
+    </div>
+    <button class="navbar-hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="navbar-mobile-drawer" id="mobileDrawer">
+  <a href="catalog.html" class="navbar-mobile-link">Katalog</a>
+  <a href="articles.html" class="navbar-mobile-link">Artikel</a>
+  <a href="index.html#why" class="navbar-mobile-link">Tentang</a>
+  <div class="navbar-mobile-actions">
+    <a href="cart.html" class="btn btn-outline btn-sm" style="flex:1">← Kembali ke Keranjang</a>
+  </div>
+</div>
+
+<section class="payment-section">
+  <div class="container">
+    <h1 class="payment-title">Checkout</h1>
+
+    <!-- STEPS -->
+    <div class="payment-steps">
+      <div class="payment-step done">
+        <div class="payment-step-num">✓</div>
+        <span class="payment-step-label">Keranjang</span>
+      </div>
+      <div class="payment-step-line"></div>
+      <div class="payment-step active">
+        <div class="payment-step-num">2</div>
+        <span class="payment-step-label">Pengiriman</span>
+      </div>
+      <div class="payment-step-line"></div>
+      <div class="payment-step active">
+        <div class="payment-step-num">3</div>
+        <span class="payment-step-label">Pembayaran</span>
+      </div>
+      <div class="payment-step-line"></div>
+      <div class="payment-step pending">
+        <div class="payment-step-num">4</div>
+        <span class="payment-step-label">Konfirmasi</span>
+      </div>
+    </div>
+
+    <form id="paymentForm">
+      <div class="payment-layout">
+
+        <!-- LEFT: FORM -->
+        <div class="payment-form-section">
+
+          <!-- ALAMAT -->
+          <div class="payment-card">
+            <div class="payment-card-title">📍 Alamat Pengiriman</div>
+            <div class="payment-form-grid">
+              <div class="form-group">
+                <label class="form-label">Nama Penerima</label>
+                <input type="text" class="form-input" placeholder="Nama lengkap" id="recipientName" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Nomor HP</label>
+                <input type="tel" class="form-input" placeholder="08xx-xxxx-xxxx" id="phoneNum" required>
+              </div>
+              <div class="form-group payment-form-full">
+                <label class="form-label">Alamat Lengkap</label>
+                <input type="text" class="form-input" placeholder="Jl., No., RT/RW, Kelurahan" id="address" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Kota</label>
+                <input type="text" class="form-input" placeholder="Kota" id="city" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Kode Pos</label>
+                <input type="text" class="form-input" placeholder="60xxx" id="postalCode" required>
+              </div>
+              <div class="form-group payment-form-full">
+                <label class="form-label">Provinsi</label>
+                <select class="form-input form-select" id="province" required>
+                  <option value="">Pilih Provinsi</option>
+                  <option>Jawa Timur</option>
+                  <option>Jawa Barat</option>
+                  <option>Jawa Tengah</option>
+                  <option>DKI Jakarta</option>
+                  <option>Banten</option>
+                  <option>DIY</option>
+                  <option>Bali</option>
+                  <option>Sulawesi Selatan</option>
+                  <option>Sumatera Utara</option>
+                </select>
+              </div>
+              <div class="form-group payment-form-full">
+                <label class="form-label">Catatan (opsional)</label>
+                <input type="text" class="form-input" placeholder="Pesan untuk kurir...">
+              </div>
+            </div>
+          </div>
+
+          <!-- PENGIRIMAN -->
+          <div class="payment-card">
+            <div class="payment-card-title">🚚 Pilih Pengiriman</div>
+            <div class="payment-methods" id="shippingOptions">
+              <label class="payment-method-option shipping-option selected">
+                <input type="radio" name="shipping" class="payment-method-radio" value="regular" checked>
+                <span class="payment-method-icon">📦</span>
+                <div class="payment-method-info">
+                  <div class="payment-method-name">JNE Regular</div>
+                  <div class="payment-method-desc">Estimasi 2–3 hari · Rp 15.000</div>
+                </div>
+              </label>
+              <label class="payment-method-option shipping-option">
+                <input type="radio" name="shipping" class="payment-method-radio" value="express">
+                <span class="payment-method-icon">⚡</span>
+                <div class="payment-method-info">
+                  <div class="payment-method-name">JNE Express</div>
+                  <div class="payment-method-desc">Estimasi 1 hari · Rp 25.000</div>
+                </div>
+              </label>
+              <label class="payment-method-option shipping-option">
+                <input type="radio" name="shipping" class="payment-method-radio" value="pickup">
+                <span class="payment-method-icon">🏠</span>
+                <div class="payment-method-info">
+                  <div class="payment-method-name">Ambil di Tempat (COD)</div>
+                  <div class="payment-method-desc">Surabaya &amp; sekitarnya · Gratis</div>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- PEMBAYARAN -->
+          <div class="payment-card">
+            <div class="payment-card-title">💳 Metode Pembayaran</div>
+            <div class="payment-methods" id="paymentMethods">
+              <div class="payment-method-option pay-method-card selected" data-method="transfer">
+                <input type="radio" name="payment" class="payment-method-radio" value="transfer" checked>
+                <span class="payment-method-icon">🏦</span>
+                <div class="payment-method-info">
+                  <div class="payment-method-name">Transfer Bank</div>
+                  <div class="payment-method-desc">BCA, Mandiri, BNI, BRI</div>
+                </div>
+              </div>
+              <div class="payment-method-option pay-method-card" data-method="ewallet">
+                <input type="radio" name="payment" class="payment-method-radio" value="ewallet">
+                <span class="payment-method-icon">💚</span>
+                <div class="payment-method-info">
+                  <div class="payment-method-name">E-Wallet</div>
+                  <div class="payment-method-desc">GoPay, OVO, Dana, ShopeePay</div>
+                </div>
+              </div>
+              <div class="payment-method-option pay-method-card" data-method="cod">
+                <input type="radio" name="payment" class="payment-method-radio" value="cod">
+                <span class="payment-method-icon">💵</span>
+                <div class="payment-method-info">
+                  <div class="payment-method-name">Bayar di Tempat (COD)</div>
+                  <div class="payment-method-desc">Hanya area Surabaya</div>
+                </div>
+              </div>
+            </div>
+            <div id="payMethodDetail" class="payment-method-detail">
+              <div class="pay-bank-info">
+                <div class="pay-bank-row">
+                  <span>Bank BCA</span>
+                  <strong>1234567890</strong>
+                  <button type="button" onclick="navigator.clipboard?.writeText('1234567890');showToast('✓ Nomor rekening disalin!')">Salin</button>
+                </div>
+                <div class="pay-bank-row">
+                  <span>a/n</span>
+                  <strong>PT GoodFinds Indonesia</strong>
+                </div>
+                <div class="pay-bank-row">
+                  <span>Jumlah Transfer</span>
+                  <strong id="payTotal2">Rp 500.000</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <button type="submit" class="payment-submit-btn">Konfirmasi Pesanan →</button>
+
+        </div>
+
+        <!-- RIGHT: ORDER SUMMARY -->
+        <div class="order-summary-card">
+          <div class="order-summary-title">Ringkasan Pesanan</div>
+          <div id="orderItemList">
+            <!-- diisi JS -->
+            <div class="order-item">
+              <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=200&h=200&fit=crop" alt="Blazer" class="order-item-img">
+              <div style="flex:1;min-width:0">
+                <div class="order-item-name">Cream Blazer Oversize</div>
+                <div class="order-item-meta">Zara · Size M</div>
+              </div>
+              <div class="order-item-price">Rp 120.000</div>
+            </div>
+            <div class="order-item">
+              <img src="https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?w=200&h=200&fit=crop" alt="Dress" class="order-item-img">
+              <div style="flex:1;min-width:0">
+                <div class="order-item-name">Floral Midi Dress</div>
+                <div class="order-item-meta">H&amp;M · Size S</div>
+              </div>
+              <div class="order-item-price">Rp 85.000</div>
+            </div>
+            <div class="order-item">
+              <img src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=200&h=200&fit=crop" alt="Bag" class="order-item-img">
+              <div style="flex:1;min-width:0">
+                <div class="order-item-name">Mini Shoulder Bag</div>
+                <div class="order-item-meta">Gucci Archive</div>
+              </div>
+              <div class="order-item-price">Rp 280.000</div>
+            </div>
+          </div>
+          <div class="order-summary-totals">
+            <div class="order-summary-row"><span>Subtotal</span><span id="paySub">Rp 485.000</span></div>
+            <div class="order-summary-row"><span>Ongkir</span><span id="payShip">Rp 15.000</span></div>
+            <hr class="order-summary-divider">
+            <div class="order-total-row"><span>Total</span><span id="payTotal">Rp 500.000</span></div>
+          </div>
+          <div class="order-eco-note">
+            🌿 <span>Pesananmu menyelamatkan <strong>3 item</strong> dari fast fashion!</span>
+          </div>
+        </div>
+
+      </div>
+    </form>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <a href="index.html" class="footer-brand">Good<span>Finds</span></a>
+        <p class="footer-tagline">Thrift yang dikurasi, style yang autentik, dan pilihan yang baik untuk bumi. Temukan gaya unikmu di GoodFinds.</p>
+        <div class="footer-socials">
+          <a href="#" class="footer-social-btn">📸</a>
+          <a href="#" class="footer-social-btn">🐦</a>
+          <a href="#" class="footer-social-btn">📱</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Belanja</div>
+        <a href="catalog.html" class="footer-link">Semua Produk</a>
+        <a href="catalog.html" class="footer-link">New Drop</a>
+        <a href="catalog.html" class="footer-link">Bestseller</a>
+        <a href="catalog.html" class="footer-link">Sale</a>
+      </div>
+      <div>
+        <div class="footer-col-title">Info</div>
+        <a href="articles.html" class="footer-link">Blog</a>
+        <a href="index.html#why" class="footer-link">Tentang Kami</a>
+        <a href="#" class="footer-link">Karir</a>
+        <a href="#" class="footer-link">Press</a>
+      </div>
+      <div>
+        <div class="footer-col-title">Bantuan</div>
+        <a href="#" class="footer-link">Cara Pemesanan</a>
+        <a href="#" class="footer-link">Pengiriman</a>
+        <a href="#" class="footer-link">Pengembalian</a>
+        <a href="#" class="footer-link">Kontak</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2026 GoodFinds. All rights reserved.</span>
+      <div class="footer-bottom-links">
+        <a href="#" class="footer-bottom-link">Privasi</a>
+        <a href="#" class="footer-bottom-link">Syarat &amp; Ketentuan</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js?v=4"></script>
+<script src="js/payment.js?v=2"></script>
+<script>if(typeof gfUpdateNavbar==='function') gfUpdateNavbar();</script>
+</body>
+</html>

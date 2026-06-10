@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard — GoodFinds Admin</title>
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages/admin.css">
+  <link rel="stylesheet" href="css/pages/dashboard.css">
+  <script src="js/auth.js"></script>
+  <script>const _gfAdminSession = gfRequireAdmin(); if(!_gfAdminSession) throw new Error("Not admin");</script>
+</head>
+<body>
+<div class="admin-layout">
+
+  <aside class="admin-sidebar">
+    <div class="admin-sidebar-logo">
+      <div class="admin-sidebar-logo-text">Good<span>Finds</span></div>
+      <div class="admin-sidebar-role">Admin Panel</div>
+    </div>
+    <nav class="admin-nav">
+      <div class="admin-nav-section">Utama</div>
+      <a href="dashboard.html" class="admin-nav-link active"><span class="nav-icon">📊</span> Dashboard</a>
+      <div class="admin-nav-section">Konten</div>
+      <a href="manage-articles.html" class="admin-nav-link"><span class="nav-icon">📝</span> Kelola Artikel</a>
+      <a href="manage-products.html" class="admin-nav-link"><span class="nav-icon">👗</span> Kelola Produk</a>
+      <div class="admin-nav-section">Data</div>
+      <a href="manage-users.html" class="admin-nav-link"><span class="nav-icon">👥</span> Kelola Pengguna</a>
+      <a href="manage-transactions.html" class="admin-nav-link"><span class="nav-icon">💳</span> Kelola Transaksi</a>
+      <div class="admin-nav-section">Sistem</div>
+      <a href="index.html" class="admin-nav-link"><span class="nav-icon">🌐</span> Lihat Website</a>
+      <a href="#" class="admin-nav-link" onclick="gfLogout();return false;"><span class="nav-icon">🚪</span> Keluar</a>
+    </nav>
+  </aside>
+
+  <div class="admin-main">
+    <div class="admin-topbar">
+      <span class="admin-topbar-title">Dashboard</span>
+      <div style="display:flex;align-items:center;gap:16px;">
+        <span style="font-size:13px;color:var(--text-muted);" id="topbarDate"></span>
+        <div class="admin-topbar-avatar">👩</div>
+      </div>
+    </div>
+
+    <div class="admin-content">
+
+      <!-- STATS -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon-wrap stat-icon-pink">💰</div>
+          <div class="stat-label">Pendapatan Bulan Ini</div>
+          <div class="stat-value">Rp 48,2 jt</div>
+          <div class="stat-change up">↑ 12% vs bulan lalu</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon-wrap stat-icon-gold">🛒</div>
+          <div class="stat-label">Total Transaksi</div>
+          <div class="stat-value stat-counter" data-target="1247">0</div>
+          <div class="stat-change up">↑ 8% vs bulan lalu</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon-wrap stat-icon-blue">👥</div>
+          <div class="stat-label">Pengguna Aktif</div>
+          <div class="stat-value stat-counter" data-target="4832">0</div>
+          <div class="stat-change up">↑ 23% vs bulan lalu</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon-wrap stat-icon-green">👗</div>
+          <div class="stat-label">Item Terjual</div>
+          <div class="stat-value stat-counter" data-target="3819">0</div>
+          <div class="stat-change up">↑ 15% vs bulan lalu</div>
+        </div>
+      </div>
+
+      <!-- DROP SCHEDULE -->
+      <div class="drop-schedule">
+        <div class="drop-schedule-content">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+            <div>
+              <div class="drop-schedule-title">⚡ Instant Thrift Drop Manager</div>
+              <div class="drop-schedule-sub">Kelola jadwal perilisan koleksi thrift baru</div>
+            </div>
+            <span class="badge badge-gold">Drop Aktif</span>
+          </div>
+          <div class="drop-schedule-info">
+            <div>
+              <div class="drop-info-label">Drop Berikutnya</div>
+              <div class="drop-info-value" id="dropDateDisplay">Jumat, 23 Mei 2026</div>
+            </div>
+            <div>
+              <div class="drop-info-label">Waktu</div>
+              <div class="drop-info-value" id="dropTimeDisplay">19.00 WIB</div>
+            </div>
+            <div>
+              <div class="drop-info-label">Item Siap</div>
+              <div class="drop-info-value">523 item</div>
+            </div>
+            <div>
+              <div class="drop-info-label">Notifikasi Aktif</div>
+              <div class="drop-info-value">1.284 pengguna</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:12px;margin-top:20px;flex-wrap:wrap;">
+            <button class="btn btn-primary btn-sm" onclick="openModal('editDropModal')">Edit Jadwal</button>
+            <button class="drop-notif-btn" onclick="showToast('📤 Notifikasi dikirim ke 1.284 pengguna!')">Kirim Notifikasi</button>
+            <button class="drop-preview-btn" onclick="openModal('previewCountdownModal')">👁 Preview Countdown</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- CHART + RECENT ORDERS -->
+      <div class="dashboard-grid">
+
+        <!-- CHART CARD -->
+        <div class="dash-card">
+          <div class="dash-card-header">
+            <span class="dash-card-title">Penjualan 7 Hari Terakhir</span>
+            <span style="font-size:12px;color:var(--text-light);">Rp 48,2 jt total</span>
+          </div>
+          <div class="chart-container">
+            <div class="chart-yaxis">
+              <span>10 jt</span>
+              <span>7,5 jt</span>
+              <span>5 jt</span>
+              <span>2,5 jt</span>
+              <span>0</span>
+            </div>
+            <div class="chart-inner">
+              <div class="chart-gridlines">
+                <div class="chart-gridline"></div>
+                <div class="chart-gridline"></div>
+                <div class="chart-gridline"></div>
+                <div class="chart-gridline"></div>
+                <div class="chart-gridline"></div>
+              </div>
+              <div class="chart-bars">
+                <div class="chart-col">
+                  <div class="chart-bar-bg"><div class="chart-bar" style="--bar-h:62%" data-tip="Rp 6,2 jt"></div></div>
+                  <div class="chart-xlabel">16/5</div>
+                </div>
+                <div class="chart-col">
+                  <div class="chart-bar-bg"><div class="chart-bar" style="--bar-h:78%" data-tip="Rp 7,8 jt"></div></div>
+                  <div class="chart-xlabel">17/5</div>
+                </div>
+                <div class="chart-col">
+                  <div class="chart-bar-bg"><div class="chart-bar" style="--bar-h:46%" data-tip="Rp 4,6 jt"></div></div>
+                  <div class="chart-xlabel">18/5</div>
+                </div>
+                <div class="chart-col">
+                  <div class="chart-bar-bg"><div class="chart-bar chart-bar--peak" style="--bar-h:94%" data-tip="Rp 9,4 jt"></div></div>
+                  <div class="chart-xlabel">19/5</div>
+                </div>
+                <div class="chart-col">
+                  <div class="chart-bar-bg"><div class="chart-bar" style="--bar-h:57%" data-tip="Rp 5,7 jt"></div></div>
+                  <div class="chart-xlabel">20/5</div>
+                </div>
+                <div class="chart-col">
+                  <div class="chart-bar-bg"><div class="chart-bar" style="--bar-h:83%" data-tip="Rp 8,3 jt"></div></div>
+                  <div class="chart-xlabel">21/5</div>
+                </div>
+                <div class="chart-col">
+                  <div class="chart-bar-bg"><div class="chart-bar chart-bar--today" style="--bar-h:68%" data-tip="Rp 6,8 jt"></div></div>
+                  <div class="chart-xlabel chart-xlabel--today">22/5</div>
+                </div>
+              </div>
+              <div class="chart-tooltip" id="chartTooltip"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RECENT ORDERS -->
+        <div class="dash-card">
+          <div class="dash-card-header">
+            <span class="dash-card-title">Pesanan Terbaru</span>
+            <a href="manage-transactions.html" style="font-size:13px;color:var(--pink-mid);font-weight:500;">Lihat semua →</a>
+          </div>
+          <div>
+            <div class="recent-order-item">
+              <div class="recent-order-avatar">S</div>
+              <div class="recent-order-info">
+                <div class="recent-order-name">Sari Dewi</div>
+                <div class="recent-order-id">#GF-2026-04821</div>
+              </div>
+              <span class="badge badge-green">Selesai</span>
+              <div class="recent-order-amount">Rp 485k</div>
+            </div>
+            <div class="recent-order-item">
+              <div class="recent-order-avatar">R</div>
+              <div class="recent-order-info">
+                <div class="recent-order-name">Rizky Adi</div>
+                <div class="recent-order-id">#GF-2026-04820</div>
+              </div>
+              <span class="badge badge-pink">Dikirim</span>
+              <div class="recent-order-amount">Rp 210k</div>
+            </div>
+            <div class="recent-order-item">
+              <div class="recent-order-avatar">M</div>
+              <div class="recent-order-info">
+                <div class="recent-order-name">Maya Putri</div>
+                <div class="recent-order-id">#GF-2026-04819</div>
+              </div>
+              <span class="badge badge-gold">Menunggu</span>
+              <div class="recent-order-amount">Rp 135k</div>
+            </div>
+            <div class="recent-order-item">
+              <div class="recent-order-avatar">A</div>
+              <div class="recent-order-info">
+                <div class="recent-order-name">Andi Kusuma</div>
+                <div class="recent-order-id">#GF-2026-04818</div>
+              </div>
+              <span class="badge badge-green">Selesai</span>
+              <div class="recent-order-amount">Rp 320k</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- QUICK ACTIONS -->
+      <div class="dash-card">
+        <div class="dash-card-header">
+          <span class="dash-card-title">Aksi Cepat</span>
+        </div>
+        <div class="quick-actions-grid">
+          <a href="manage-products.html" class="quick-action-btn">
+            <span class="quick-action-icon">📦</span>
+            <span class="quick-action-label">Tambah Produk</span>
+          </a>
+          <a href="manage-articles.html" class="quick-action-btn">
+            <span class="quick-action-icon">✏️</span>
+            <span class="quick-action-label">Tulis Artikel</span>
+          </a>
+          <a href="manage-users.html" class="quick-action-btn">
+            <span class="quick-action-icon">👥</span>
+            <span class="quick-action-label">Kelola Pengguna</span>
+          </a>
+          <a href="manage-transactions.html" class="quick-action-btn">
+            <span class="quick-action-icon">💳</span>
+            <span class="quick-action-label">Cek Transaksi</span>
+          </a>
+          <button class="quick-action-btn" onclick="openModal('previewCountdownModal')">
+            <span class="quick-action-icon">⚡</span>
+            <span class="quick-action-label">Preview Drop</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: EDIT JADWAL DROP -->
+<div class="modal-overlay" id="editDropModal">
+  <div class="modal" style="max-width:480px;padding:0;">
+    <div class="modal-header" style="padding:20px 24px 0;">
+      <h3 class="modal-title">⚡ Edit Jadwal Drop</h3>
+      <button class="modal-close">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group" style="margin-bottom:16px;">
+        <label class="form-label">Nama Koleksi Drop</label>
+        <input type="text" class="form-input" id="dropCollectionName" value="Summer Thrift Vol. 3" placeholder="Nama koleksi...">
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+        <div class="form-group">
+          <label class="form-label">Tanggal Drop</label>
+          <input type="date" class="form-input" id="dropDate" value="2026-05-23">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Waktu Drop (WIB)</label>
+          <input type="time" class="form-input" id="dropTime" value="19:00">
+        </div>
+      </div>
+      <div class="form-group" style="margin-bottom:16px;">
+        <label class="form-label">Jumlah Item Siap</label>
+        <input type="number" class="form-input" id="dropItemCount" value="523" min="1">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Catatan (opsional)</label>
+        <textarea class="form-input" rows="2" placeholder="Catatan untuk tim..."></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost btn-sm modal-cancel">Batal</button>
+      <button class="btn btn-outline btn-sm" onclick="openPreviewFromEdit()">👁 Preview dulu</button>
+      <button class="btn btn-primary btn-sm" onclick="saveDropSchedule()">Simpan Jadwal</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: PREVIEW COUNTDOWN (Use Case 19) -->
+<div class="modal-overlay" id="previewCountdownModal">
+  <div class="modal" style="max-width:680px;padding:0;">
+    <div class="modal-header" style="padding:20px 24px 0;">
+      <h3 class="modal-title">👁 Preview Countdown — Tampilan Pengguna</h3>
+      <button class="modal-close">✕</button>
+    </div>
+
+    <!-- info bar -->
+    <div style="background:#FFF8FA;border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft);padding:10px 24px;display:flex;align-items:center;gap:10px;">
+      <span style="background:#FFE8EE;color:var(--pink-dark);font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:3px 10px;border-radius:999px;">Simulasi Live</span>
+      <span style="font-size:13px;color:var(--text-muted);">Tampilan yang akan dilihat pengguna di Landing Page.</span>
+    </div>
+
+    <!-- simulasi landing page -->
+    <div style="background:#1a1020;overflow:hidden;">
+
+      <!-- mini navbar -->
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 28px;border-bottom:1px solid rgba(255,255,255,.06);">
+        <div style="font-family:var(--font-display);font-size:18px;font-weight:700;color:#fff;letter-spacing:.06em;">Good<span style="color:var(--pink-light);">Finds</span></div>
+        <div style="display:flex;gap:16px;font-size:12px;color:rgba(255,255,255,.45);">
+          <span>Katalog</span><span>Artikel</span>
+        </div>
+      </div>
+
+      <!-- drop banner simulasi -->
+      <div style="background:linear-gradient(135deg,#2D1B3D 0%,#1a1020 100%);padding:24px 28px;border-bottom:1px solid rgba(255,255,255,.06);">
+        <div style="display:flex;align-items:center;gap:24px;flex-wrap:wrap;">
+          <div>
+            <div style="font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--pink-light);margin-bottom:4px;">✨ Instant Thrift Drop</div>
+            <div id="previewDropTitle" style="font-family:var(--font-display);font-size:17px;font-weight:700;color:#fff;">Next Drop: Jumat, 19.00 WIB</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:6px;flex-shrink:0;">
+            <div style="display:flex;flex-direction:column;align-items:center;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:8px 14px;min-width:52px;">
+              <span id="previewHours" style="font-family:var(--font-display);font-size:22px;font-weight:700;color:#fff;line-height:1;">--</span>
+              <span style="font-size:9px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.1em;margin-top:4px;">Jam</span>
+            </div>
+            <span style="font-size:20px;font-weight:700;color:var(--pink-light);margin-bottom:10px;">:</span>
+            <div style="display:flex;flex-direction:column;align-items:center;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:8px 14px;min-width:52px;">
+              <span id="previewMins" style="font-family:var(--font-display);font-size:22px;font-weight:700;color:#fff;line-height:1;">--</span>
+              <span style="font-size:9px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.1em;margin-top:4px;">Menit</span>
+            </div>
+            <span style="font-size:20px;font-weight:700;color:var(--pink-light);margin-bottom:10px;">:</span>
+            <div style="display:flex;flex-direction:column;align-items:center;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:8px 14px;min-width:52px;">
+              <span id="previewSecs" style="font-family:var(--font-display);font-size:22px;font-weight:700;color:#fff;line-height:1;">--</span>
+              <span style="font-size:9px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.1em;margin-top:4px;">Detik</span>
+            </div>
+          </div>
+          <button onclick="showToast('🔔 [Simulasi] Notifikasi diaktifkan')" style="background:linear-gradient(135deg,var(--pink-light),var(--pink-mid));color:#fff;border:none;border-radius:999px;padding:10px 20px;font-size:13px;font-weight:500;cursor:pointer;font-family:inherit;white-space:nowrap;">🔔 Ingatkan Saya</button>
+        </div>
+      </div>
+
+      <!-- info cards -->
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,.06);border-top:1px solid rgba(255,255,255,.06);">
+        <div style="display:flex;flex-direction:column;align-items:center;padding:16px 12px;background:rgba(255,255,255,.03);text-align:center;">
+          <span style="font-size:20px;margin-bottom:6px;">📦</span>
+          <span style="font-size:10px;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px;">Item Siap</span>
+          <span id="previewItemCount" style="font-size:14px;font-weight:600;color:#fff;">523 item</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;padding:16px 12px;background:rgba(255,255,255,.03);text-align:center;">
+          <span style="font-size:20px;margin-bottom:6px;">🔔</span>
+          <span style="font-size:10px;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px;">Sudah Diingatkan</span>
+          <span style="font-size:14px;font-weight:600;color:#fff;">1.284 pengguna</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;padding:16px 12px;background:rgba(255,255,255,.03);text-align:center;">
+          <span style="font-size:20px;margin-bottom:6px;">⚡</span>
+          <span style="font-size:10px;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px;">Status Drop</span>
+          <span id="previewStatus" style="font-size:14px;font-weight:600;color:#fff;">Scheduled</span>
+        </div>
+      </div>
+
+      <p style="font-size:11px;color:rgba(255,255,255,.3);text-align:center;padding:10px 24px 14px;margin:0;">⚠️ Ini adalah simulasi — countdown berjalan real-time dari jadwal yang diatur.</p>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn btn-ghost btn-sm modal-cancel">Tutup Preview</button>
+      <button class="btn btn-outline btn-sm" onclick="closeModal('previewCountdownModal');openModal('editDropModal');">✏️ Edit Jadwal</button>
+      <button class="btn btn-primary btn-sm" onclick="confirmDrop()">✅ Publikasikan</button>
+    </div>
+  </div>
+</div>
+
+<style>
+.drop-preview-btn {
+  background: rgba(255,255,255,.12);
+  color: var(--white);
+  border: 1px solid rgba(255,255,255,.25);
+  border-radius: var(--radius-full);
+  padding: 8px 20px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+  font-family: inherit;
+}
+.drop-preview-btn:hover { background: rgba(255,255,255,.22); }
+</style>
+
+<script>
+// Date topbar
+const d = new Date();
+const days   = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+const months = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Ags','Sep','Okt','Nov','Des'];
+const months2 = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+const dateEl = document.getElementById('topbarDate');
+if (dateEl) dateEl.textContent = `${days[d.getDay()]}, ${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
+
+// Chart tooltip
+const tooltip = document.getElementById('chartTooltip');
+document.querySelectorAll('.chart-bar').forEach(bar => {
+  bar.addEventListener('mouseenter', () => {
+    if (!tooltip) return;
+    tooltip.textContent = bar.dataset.tip;
+    tooltip.classList.add('visible');
+    const rect      = bar.getBoundingClientRect();
+    const chartRect = bar.closest('.chart-inner').getBoundingClientRect();
+    tooltip.style.left = (rect.left - chartRect.left + rect.width / 2) + 'px';
+    tooltip.style.top  = (rect.top  - chartRect.top  - 36) + 'px';
+  });
+  bar.addEventListener('mouseleave', () => { if (tooltip) tooltip.classList.remove('visible'); });
+});
+
+// Modal helpers
+function openModal(id)  { document.getElementById(id)?.classList.add('open'); }
+function closeModal(id) { document.getElementById(id)?.classList.remove('open'); }
+
+document.querySelectorAll('.modal-close, .modal-cancel').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('open'));
+  });
+});
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+  overlay.addEventListener('click', e => {
+    if (e.target === overlay) overlay.classList.remove('open');
+  });
+});
+
+// Preview countdown timer
+let previewInterval = null;
+
+function startPreviewCountdown() {
+  const dateVal    = document.getElementById('dropDate')?.value || '2026-05-23';
+  const timeVal    = document.getElementById('dropTime')?.value || '19:00';
+  const targetDate = new Date(`${dateVal}T${timeVal}:00`);
+
+  const titleEl = document.getElementById('previewDropTitle');
+  if (titleEl) titleEl.textContent = `Next Drop: ${days[targetDate.getDay()]}, ${timeVal.replace(':','.')} WIB`;
+
+  const itemVal = parseInt(document.getElementById('dropItemCount')?.value) || 523;
+  const itemEl  = document.getElementById('previewItemCount');
+  if (itemEl) itemEl.textContent = itemVal.toLocaleString('id-ID') + ' item';
+
+  const dropDateEl = document.getElementById('dropDateDisplay');
+  const dropTimeEl = document.getElementById('dropTimeDisplay');
+  if (dropDateEl) dropDateEl.textContent = `${days[targetDate.getDay()]}, ${targetDate.getDate()} ${months2[targetDate.getMonth()]} ${targetDate.getFullYear()}`;
+  if (dropTimeEl) dropTimeEl.textContent = `${timeVal.replace(':','.')} WIB`;
+
+  if (previewInterval) clearInterval(previewInterval);
+
+  function tick() {
+    const diff     = targetDate - new Date();
+    const statusEl = document.getElementById('previewStatus');
+    if (diff <= 0) {
+      document.getElementById('previewHours').textContent = '00';
+      document.getElementById('previewMins').textContent  = '00';
+      document.getElementById('previewSecs').textContent  = '00';
+      if (statusEl) { statusEl.textContent = '🔴 Drop Live!'; statusEl.style.color = '#ff6b6b'; }
+      clearInterval(previewInterval);
+      return;
+    }
+    const total = Math.floor(diff / 1000);
+    document.getElementById('previewHours').textContent = String(Math.floor(total / 3600)).padStart(2,'0');
+    document.getElementById('previewMins').textContent  = String(Math.floor((total % 3600) / 60)).padStart(2,'0');
+    document.getElementById('previewSecs').textContent  = String(total % 60).padStart(2,'0');
+    if (statusEl) { statusEl.textContent = 'Scheduled'; statusEl.style.color = ''; }
+  }
+  tick();
+  previewInterval = setInterval(tick, 1000);
+}
+
+// Jalankan saat modal preview dibuka
+new MutationObserver(() => {
+  const modal = document.getElementById('previewCountdownModal');
+  if (modal?.classList.contains('open')) {
+    startPreviewCountdown();
+  } else {
+    if (previewInterval) { clearInterval(previewInterval); previewInterval = null; }
+  }
+}).observe(document.getElementById('previewCountdownModal'), { attributes: true, attributeFilter: ['class'] });
+
+function openPreviewFromEdit() {
+  closeModal('editDropModal');
+  setTimeout(() => openModal('previewCountdownModal'), 200);
+}
+function saveDropSchedule() {
+  if (!document.getElementById('dropDate')?.value) { showToast('⚠️ Lengkapi tanggal drop.'); return; }
+  closeModal('editDropModal');
+  showToast('✅ Jadwal drop berhasil disimpan!');
+}
+function confirmDrop() {
+  closeModal('previewCountdownModal');
+  showToast('🚀 Drop dipublikasikan! Countdown aktif di Landing Page.');
+}
+</script>
+<script src="js/main.js?v=4"></script>
+<script src="js/admin.js"></script>
+<script>if(typeof gfUpdateNavbar==='function') gfUpdateNavbar();</script>
+</body>
+</html>

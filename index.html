@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GoodFinds — Thrift That Hits Different</title>
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages/landing.css">
+  <script src="js/auth.js"></script>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="index.html" class="navbar-logo">Good<span>Finds</span></a>
+    <div class="navbar-nav">
+      <a href="catalog.html" class="navbar-link">Katalog</a>
+      <a href="articles.html" class="navbar-link">Artikel</a>
+      <a href="#why" class="navbar-link">Tentang</a>
+    </div>
+    <div class="navbar-actions">
+      <a href="cart.html" class="navbar-icon-btn" title="Keranjang">🛒<span class="navbar-cart-count" id="cartCount">0</span></a>
+      <a href="login.html" class="btn btn-primary btn-sm navbar-login-btn">Masuk</a>
+      <div class="navbar-user-menu" style="display:none; align-items:center; gap:10px;">
+        <span style="font-size:13px; color:var(--text-muted);">Hai, <strong class="navbar-user-name"></strong></span>
+        <a href="history.html" class="btn btn-ghost btn-sm">Pesanan</a>
+        <button class="btn btn-outline btn-sm" onclick="gfLogout()">Keluar</button>
+      </div>
+    </div>
+    <button class="navbar-hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="navbar-mobile-drawer" id="mobileDrawer">
+  <a href="catalog.html" class="navbar-mobile-link">Katalog</a>
+  <a href="articles.html" class="navbar-mobile-link">Artikel</a>
+  <a href="#why" class="navbar-mobile-link">Tentang</a>
+  <div class="navbar-mobile-actions">
+    <a href="cart.html" class="btn btn-outline btn-sm" style="flex:1">🛒 Keranjang</a>
+    <a href="login.html" class="btn btn-primary btn-sm" style="flex:1">Masuk</a>
+  </div>
+</div>
+
+<!-- WORDPRESS LINK NOTICE -->
+<div style="background:#fff8fb;border-bottom:1px solid var(--border-soft);padding:10px 0;">
+  <div class="container">
+    <div class="wp-notice">
+      <span>🌐</span>
+      <span>Versi WordPress Landing Page tersedia di: <a href="https://goodfinds.wordpress.com" target="_blank">goodfinds.wordpress.com</a> — klik untuk melihat versi WordPress</span>
+    </div>
+  </div>
+</div>
+
+<!-- DROP BANNER -->
+<section class="drop-banner">
+  <div class="container">
+    <div class="drop-inner">
+      <div>
+        <div class="drop-label">✨ Instant Thrift Drop</div>
+        <div class="drop-title">Next Drop: Jumat, 19.00 WIB</div>
+      </div>
+      <div class="drop-timer">
+        <div class="drop-time-block"><span class="drop-time-num" id="dropHours">08</span><span class="drop-time-label">Jam</span></div>
+        <span class="drop-colon">:</span>
+        <div class="drop-time-block"><span class="drop-time-num" id="dropMins">34</span><span class="drop-time-label">Menit</span></div>
+        <span class="drop-colon">:</span>
+        <div class="drop-time-block"><span class="drop-time-num" id="dropSecs">22</span><span class="drop-time-label">Detik</span></div>
+      </div>
+      <button class="drop-notify-btn" id="notifyBtn">🔔 Ingatkan Saya</button>
+    </div>
+  </div>
+</section>
+
+<div class="live-drop-toast" id="liveDropToast">🎉 New Drop is Live! Happy hunting ♡</div>
+<div class="confetti-container" id="confettiContainer"></div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-content">
+        <div class="hero-eyebrow"><div class="hero-eyebrow-dot"></div><span class="hero-eyebrow-text">Thrift. Style. Sustainably.</span></div>
+        <h1 class="hero-title">Temukan Gaya<br><em>Unikmu</em> Sendiri</h1>
+        <p class="hero-desc">Ratusan item thrift pilihan dengan estetika yang tak tertandingi. Belanja lebih bijak, tampil lebih stylish, jaga bumi tetap baik.</p>
+        <div class="hero-actions">
+          <a href="catalog.html" class="btn btn-primary btn-lg">Belanja Sekarang</a>
+          <a href="articles.html" class="btn btn-outline btn-lg">Baca Artikel</a>
+        </div>
+        <div class="hero-trust">
+          <div class="hero-trust-avatars">
+            <div class="hero-trust-avatar">👩</div>
+            <div class="hero-trust-avatar">👧</div>
+            <div class="hero-trust-avatar">🧑</div>
+            <div class="hero-trust-avatar">👨</div>
+          </div>
+          <span class="hero-trust-text"><strong>12.000+</strong> pelanggan puas bulan ini</span>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <img src="https://i.pinimg.com/736x/c6/b2/60/c6b260e2f0f9e311b4ef9ca0690afb04.jpg" alt="Featured Product" class="hero-img-main">
+        <div class="hero-img-float hero-img-float-1">
+          <div class="float-label">Item Terjual Hari Ini</div>
+          <div class="float-value">247 item 🔥</div>
+        </div>
+        <div class="hero-img-float hero-img-float-2">
+          <div class="float-label">Drop Berikutnya</div>
+          <div class="float-value">500+ item</div>
+          <div class="float-sub">ready to drop ✨</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BRANDS -->
+<div class="brands-bar">
+  <div class="brands-track" id="brandsTrack">
+    <span class="brand-item">Zara Vintage</span><span class="brand-item">H&amp;M Select</span><span class="brand-item">Uniqlo Rare</span><span class="brand-item">Stradivarius</span><span class="brand-item">Pull &amp; Bear</span><span class="brand-item">Mango Archive</span><span class="brand-item">Topshop</span><span class="brand-item">Levi's Denim</span>
+    <span class="brand-item">Zara Vintage</span><span class="brand-item">H&amp;M Select</span><span class="brand-item">Uniqlo Rare</span><span class="brand-item">Stradivarius</span><span class="brand-item">Pull &amp; Bear</span><span class="brand-item">Mango Archive</span><span class="brand-item">Topshop</span><span class="brand-item">Levi's Denim</span>
+  </div>
+</div>
+
+<!-- FEATURED PRODUCTS -->
+<section class="section-products">
+  <div class="container">
+    <div class="section-header">
+      <div><span class="section-label">Pilihan Editor</span><h2 class="section-title">Lagi Trending di GoodFinds</h2></div>
+      <a href="catalog.html" class="btn btn-outline">Lihat Semua →</a>
+    </div>
+    <div class="products-grid">
+      <div class="product-card" onclick="location.href='product-detail.html'">
+        <div class="product-card-img">
+          <img src="https://i.pinimg.com/736x/92/56/90/92569033684352512f1551d915fa6724.jpg" alt="Cream Blazer" class="product-card-img-tag">
+          <div class="product-card-badges"><span class="badge badge-pink">New Drop</span></div>
+          <button class="product-card-wishlist">🤍</button>
+        </div>
+        <div class="product-card-body">
+          <div class="product-card-brand">Zara</div>
+          <div class="product-card-name">Cream Blazer Oversize</div>
+          <div class="product-card-price"><span class="product-card-price-main">Rp 120.000</span><span class="product-card-price-original">Rp 320.000</span></div>
+          <button class="product-card-add">+ Keranjang</button>
+        </div>
+      </div>
+      <div class="product-card" onclick="location.href='product-detail.html'">
+        <div class="product-card-img">
+          <img src="https://i.pinimg.com/736x/c3/03/b5/c303b5ebe83835ef253b8acf76261c6b.jpg" alt="Floral Dress" class="product-card-img-tag">
+          <div class="product-card-badges"><span class="badge badge-gold">Bestseller</span></div>
+          <button class="product-card-wishlist">🤍</button>
+        </div>
+        <div class="product-card-body">
+          <div class="product-card-brand">H&amp;M</div>
+          <div class="product-card-name">Floral Midi Dress</div>
+          <div class="product-card-price"><span class="product-card-price-main">Rp 85.000</span><span class="product-card-price-original">Rp 250.000</span></div>
+          <button class="product-card-add">+ Keranjang</button>
+        </div>
+      </div>
+      <div class="product-card" onclick="location.href='product-detail.html'">
+        <div class="product-card-img">
+          <img src="https://i.pinimg.com/736x/ab/d5/85/abd5853b05d4fb35293e72d868cc863c.jpg" alt="Mini Bag" class="product-card-img-tag">
+          <div class="product-card-badges"><span class="badge badge-pink">Rare Find</span></div>
+          <button class="product-card-wishlist">🤍</button>
+        </div>
+        <div class="product-card-body">
+          <div class="product-card-brand">Gucci Archive</div>
+          <div class="product-card-name">Mini Shoulder Bag</div>
+          <div class="product-card-price"><span class="product-card-price-main">Rp 280.000</span><span class="product-card-price-original">Rp 800.000</span></div>
+          <button class="product-card-add">+ Keranjang</button>
+        </div>
+      </div>
+      <div class="product-card" onclick="location.href='product-detail.html'">
+        <div class="product-card-img">
+          <img src="https://i.pinimg.com/736x/73/b6/db/73b6db2ff99bca9f800d106ced337f3b.jpg" alt="Sneakers" class="product-card-img-tag">
+          <button class="product-card-wishlist">🤍</button>
+        </div>
+        <div class="product-card-body">
+          <div class="product-card-brand">Nike Vintage</div>
+          <div class="product-card-name">Air Max 90 Retro</div>
+          <div class="product-card-price"><span class="product-card-price-main">Rp 195.000</span><span class="product-card-price-original">Rp 450.000</span></div>
+          <button class="product-card-add">+ Keranjang</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY -->
+<section class="why-section" id="why">
+  <div class="container">
+    <div style="text-align:center;margin-bottom:48px"><span class="section-label">Kenapa GoodFinds?</span><h2 class="section-title">Thrift yang Beda dari yang Lain</h2></div>
+    <div class="why-grid">
+      <div class="why-card"><div class="why-icon">✨</div><div class="why-title">Kurasi Manual</div><div class="why-desc">Setiap item dipilih dan dikurasi langsung oleh tim stylist kami untuk memastikan kualitas terbaik.</div></div>
+      <div class="why-card"><div class="why-icon">🌿</div><div class="why-title">Eco-Conscious</div><div class="why-desc">Setiap pembelian thrift mengurangi limbah fashion. Bersama kita jaga bumi untuk generasi selanjutnya.</div></div>
+      <div class="why-card"><div class="why-icon">💝</div><div class="why-title">Harga Terjangkau</div><div class="why-desc">Dapatkan item branded berkualitas tinggi dengan harga yang ramah di kantong. Style ≠ mahal.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- BLOG -->
+<section class="section-blog">
+  <div class="container">
+    <div class="section-header">
+      <div><span class="section-label">Dari Blog GoodFinds</span><h2 class="section-title">Inspirasi & Gaya Hidup</h2></div>
+      <a href="articles.html" class="btn btn-outline">Semua Artikel →</a>
+    </div>
+    <div class="blog-grid">
+      <a href="article-detail.html" class="article-card">
+        <div class="article-card-img" style="background-image: url('https://i.pinimg.com/736x/b3/0e/33/b30e33d7927fa1e54dd46e7528ea9be3.jpg');"></div>
+        <div class="article-card-body">
+          <div class="article-card-category">Style Guide</div>
+          <h3 class="article-card-title">5 Cara Mix & Match Outfit Thrift untuk Tampil Coquette</h3>
+          <p class="article-card-excerpt">Dari blazer oversized hingga floral dress — semua bisa dipadukan untuk look yang dreamy.</p>
+          <div class="article-card-meta"><span>✍️ Rara Putri</span><span>·</span><span>5 Mei 2026</span></div>
+        </div>
+      </a>
+      <a href="article-detail.html" class="article-card">
+        <div class="article-card-img" style="background-image: url('https://i.pinimg.com/1200x/15/61/86/15618642472d07906da7b4b042318767.jpg');"></div>
+        <div class="article-card-body">
+          <div class="article-card-category">Sustainability</div>
+          <h3 class="article-card-title">Kenapa Belanja Thrift Itu Tindakan Nyata untuk Bumi</h3>
+          <p class="article-card-excerpt">Fast fashion menghasilkan 10% emisi karbon global. Ini yang bisa kamu lakukan.</p>
+          <div class="article-card-meta"><span>✍️ Dito Arya</span><span>·</span><span>2 Mei 2026</span></div>
+        </div>
+      </a>
+      <a href="article-detail.html" class="article-card">
+        <div class="article-card-img" style="background-image: url('https://i.pinimg.com/1200x/f6/b0/bc/f6b0bc9e8db03e3e0dd08af64e32bb59.jpg');"></div>
+        <div class="article-card-body">
+          <div class="article-card-category">Tips & Trik</div>
+          <h3 class="article-card-title">Panduan Lengkap Belanja Thrift Online bagi Pemula</h3>
+          <p class="article-card-excerpt">Apa yang harus diperhatikan, cara cek kondisi item, hingga tips negosiasi harga.</p>
+          <div class="article-card-meta"><span>✍️ Sari Lestari</span><span>·</span><span>28 Apr 2026</span></div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-banner">
+  <div class="container">
+    <div class="cta-inner">
+      <h2 class="cta-title">Jangan Lewatkan Drop<br><em>Berikutnya</em></h2>
+      <p class="cta-desc">Daftarkan akunmu dan aktifkan notifikasi. Jadilah yang pertama berburu item incaran!</p>
+      <div class="cta-actions">
+        <a href="login.html" class="btn btn-primary btn-lg">Daftar Sekarang</a>
+        <a href="catalog.html" class="btn btn-outline btn-lg">Lihat Katalog</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <a href="index.html" class="footer-brand">Good<span>Finds</span></a>
+        <p class="footer-tagline">Thrift yang dikurasi, style yang autentik, dan pilihan yang baik untuk bumi. Temukan gaya unikmu di GoodFinds.</p>
+        <div class="footer-socials">
+          <a href="#" class="footer-social-btn">📸</a>
+          <a href="#" class="footer-social-btn">🐦</a>
+          <a href="#" class="footer-social-btn">📱</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Belanja</div>
+        <a href="catalog.html" class="footer-link">Semua Produk</a>
+        <a href="catalog.html" class="footer-link">New Drop</a>
+        <a href="catalog.html" class="footer-link">Bestseller</a>
+        <a href="catalog.html" class="footer-link">Sale</a>
+      </div>
+      <div>
+        <div class="footer-col-title">Info</div>
+        <a href="articles.html" class="footer-link">Blog</a>
+        <a href="#why" class="footer-link">Tentang Kami</a>
+        <a href="#" class="footer-link">Karir</a>
+        <a href="#" class="footer-link">Press</a>
+      </div>
+      <div>
+        <div class="footer-col-title">Bantuan</div>
+        <a href="#" class="footer-link">Cara Pemesanan</a>
+        <a href="#" class="footer-link">Pengiriman</a>
+        <a href="#" class="footer-link">Pengembalian</a>
+        <a href="#" class="footer-link">Kontak</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2026 GoodFinds. All rights reserved.</span>
+      <div class="footer-bottom-links">
+        <a href="#" class="footer-bottom-link">Privasi</a>
+        <a href="#" class="footer-bottom-link">Syarat &amp; Ketentuan</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js?v=4"></script>
+<script src="js/landing.js"></script>
+<script>if(typeof gfUpdateNavbar==='function') gfUpdateNavbar();</script>
+</body>
+</html>

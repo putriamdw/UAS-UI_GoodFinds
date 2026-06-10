@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kelola Produk — GoodFinds Admin</title>
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages/admin.css">
+  <script src="js/auth.js"></script>
+  <script>const _gfAdminSession = gfRequireAdmin(); if(!_gfAdminSession) throw new Error("Not admin");</script>
+</head>
+<body>
+<div class="admin-layout">
+
+  <aside class="admin-sidebar">
+    <div class="admin-sidebar-logo">
+      <div class="admin-sidebar-logo-text">Good<span>Finds</span></div>
+      <div class="admin-sidebar-role">Admin Panel</div>
+    </div>
+    <nav class="admin-nav">
+      <div class="admin-nav-section">Utama</div>
+      <a href="dashboard.html" class="admin-nav-link"><span class="nav-icon">📊</span> Dashboard</a>
+      <div class="admin-nav-section">Konten</div>
+      <a href="manage-articles.html" class="admin-nav-link"><span class="nav-icon">📝</span> Kelola Artikel</a>
+      <a href="manage-products.html" class="admin-nav-link active"><span class="nav-icon">👗</span> Kelola Produk</a>
+      <div class="admin-nav-section">Data</div>
+      <a href="manage-users.html" class="admin-nav-link"><span class="nav-icon">👥</span> Kelola Pengguna</a>
+      <a href="manage-transactions.html" class="admin-nav-link"><span class="nav-icon">💳</span> Kelola Transaksi</a>
+      <div class="admin-nav-section">Sistem</div>
+      <a href="index.html" class="admin-nav-link"><span class="nav-icon">🌐</span> Lihat Website</a>
+      <a href="#" class="admin-nav-link" onclick="gfLogout();return false;"><span class="nav-icon">🚪</span> Keluar</a>
+    </nav>
+  </aside>
+
+  <div class="admin-main">
+
+    <div class="admin-topbar">
+      <div class="admin-topbar-left">
+        <div class="admin-topbar-title">Kelola Produk</div>
+        <div class="admin-topbar-breadcrumb">Admin Panel &nbsp;›&nbsp; Kelola Produk</div>
+      </div>
+      <div class="admin-topbar-right">
+        <button class="admin-topbar-notif" onclick="showToast('🔔 Tidak ada notifikasi baru')">
+          🔔 <span class="admin-notif-badge">3</span>
+        </button>
+        <div class="admin-topbar-user">
+          <div class="admin-topbar-avatar">A</div>
+          <div class="admin-topbar-userinfo">
+            <div class="admin-topbar-username">Admin</div>
+            <div class="admin-topbar-userrole">Super Admin</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="admin-content">
+      <div class="admin-page-header">
+        <div>
+          <h1 class="admin-page-title">Kelola Produk</h1>
+          <p class="admin-page-desc"><strong>248</strong> produk aktif · <strong>12</strong> sold out</p>
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="openModal('productModal')">+ Tambah Produk</button>
+      </div>
+
+      <div class="admin-stat-row">
+        <div class="admin-mini-stat">
+          <div class="admin-mini-stat-label">Total Produk</div>
+          <div class="admin-mini-stat-value">260</div>
+          <div class="admin-mini-stat-change">↑ 8 item baru</div>
+        </div>
+        <div class="admin-mini-stat">
+          <div class="admin-mini-stat-label">Tersedia</div>
+          <div class="admin-mini-stat-value">248</div>
+          <div class="admin-mini-stat-change" style="color:#2E7D32;">● Aktif</div>
+        </div>
+        <div class="admin-mini-stat">
+          <div class="admin-mini-stat-label">Sold Out</div>
+          <div class="admin-mini-stat-value">12</div>
+          <div class="admin-mini-stat-change" style="color:#C62828;">● Habis</div>
+        </div>
+        <div class="admin-mini-stat">
+          <div class="admin-mini-stat-label">Drop Berikutnya</div>
+          <div class="admin-mini-stat-value">523</div>
+          <div class="admin-mini-stat-change" style="color:var(--pink-mid);">item siap</div>
+        </div>
+      </div>
+
+      <div class="admin-toolbar">
+        <div class="admin-search" style="max-width:260px;flex:1;">
+          <span class="admin-search-icon">🔍</span>
+          <input type="text" id="tableSearch" placeholder="Cari nama produk...">
+        </div>
+        <select class="admin-filter-select" id="catFilter">
+          <option value="">Semua Kategori</option>
+          <option>Atasan</option>
+          <option>Bawahan</option>
+          <option>Dress</option>
+          <option>Outer</option>
+          <option>Tas</option>
+          <option>Sepatu</option>
+          <option>Aksesoris</option>
+        </select>
+        <select class="admin-filter-select" id="condFilter">
+          <option value="">Semua Kondisi</option>
+          <option>Seperti Baru</option>
+          <option>Sangat Baik</option>
+          <option>Baik</option>
+        </select>
+        <select class="admin-filter-select" id="statusFilter">
+          <option value="">Semua Status</option>
+          <option>Tersedia</option>
+          <option>Sold Out</option>
+          <option>Drop Berikutnya</option>
+        </select>
+        <button class="btn btn-ghost btn-sm" onclick="showToast('📥 Mengekspor data produk...')">⬇ Ekspor</button>
+      </div>
+
+      <div class="table-wrapper">
+        <table class="data-table" id="productsTable">
+          <thead>
+            <tr>
+              <th>Produk</th>
+              <th>Kategori</th>
+              <th>Harga</th>
+              <th>Ukuran</th>
+              <th>Kondisi</th>
+              <th>Status</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="productsBody"></tbody>
+        </table>
+
+        <div class="table-pagination">
+          <span class="table-pagination-info">Menampilkan 1–8 dari 260 produk</span>
+          <div class="table-pagination-btns">
+            <button class="tpag-btn">←</button>
+            <button class="tpag-btn active">1</button>
+            <button class="tpag-btn">2</button>
+            <button class="tpag-btn">3</button>
+            <button class="tpag-btn">…</button>
+            <button class="tpag-btn">33</button>
+            <button class="tpag-btn">→</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="productModal">
+  <div class="modal" style="max-width:560px;">
+    <div class="modal-header">
+      <h3 class="modal-title">Tambah Produk</h3>
+      <button class="modal-close">✕</button>
+    </div>
+    <div class="admin-form-grid" style="padding:0 0 8px;">
+      <div class="form-group admin-form-full">
+        <label class="form-label">Nama Produk</label>
+        <input type="text" class="form-input" placeholder="Nama produk...">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Brand</label>
+        <input type="text" class="form-input" placeholder="Brand / label">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Kategori</label>
+        <select class="form-input form-select">
+          <option>Atasan</option><option>Bawahan</option><option>Dress</option>
+          <option>Outer</option><option>Tas</option><option>Sepatu</option><option>Aksesoris</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Harga</label>
+        <input type="text" class="form-input" placeholder="Rp ...">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Ukuran</label>
+        <input type="text" class="form-input" placeholder="S, M, L, 38, ...">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Kondisi</label>
+        <select class="form-input form-select">
+          <option>Seperti Baru</option><option>Sangat Baik</option><option>Baik</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Status</label>
+        <select class="form-input form-select">
+          <option>Tersedia</option><option>Sold Out</option><option>Drop Berikutnya</option>
+        </select>
+      </div>
+      <div class="form-group admin-form-full">
+        <label class="form-label">Deskripsi</label>
+        <textarea class="form-input" rows="3" placeholder="Deskripsi produk..."></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline modal-cancel">Batal</button>
+      <button class="btn btn-primary" onclick="showToast('✅ Produk berhasil disimpan!');closeModal('productModal')">Simpan Produk</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const products = [
+  { image:'https://i.pinimg.com/736x/92/56/90/92569033684352512f1551d915fa6724.jpg', name:'Cream Blazer Oversize',   brand:'Zara',          cat:'Atasan',    price:'Rp 120.000', size:'M',  cond:'Seperti Baru', status:'available' },
+  { image:'https://i.pinimg.com/736x/c3/03/b5/c303b5ebe83835ef253b8acf76261c6b.jpg', name:'Floral Midi Dress',               brand:'H&M',           cat:'Dress',     price:'Rp 85.000',  size:'S',  cond:'Sangat Baik',  status:'available' },
+  { image:'https://i.pinimg.com/736x/ab/d5/85/abd5853b05d4fb35293e72d868cc863c.jpg', name:'Mini Shoulder Bag',               brand:'Gucci Archive', cat:'Tas',       price:'Rp 280.000', size:'-',  cond:'Sangat Baik',  status:'available' },
+  { image:'https://i.pinimg.com/736x/73/b6/db/73b6db2ff99bca9f800d106ced337f3b.jpg', name:'Air Max 90 Retro',                brand:'Nike Vintage',  cat:'Sepatu',    price:'Rp 195.000', size:'39', cond:'Baik',         status:'available' },
+  { image:'https://i.pinimg.com/1200x/4f/a9/53/4fa953837f57484700f43c53fec82ff3.jpg', name:'Flannel Shirt Oversized Grey',    brand:'Uniqlo',        cat:'Atasan',    price:'Rp 85.000',  size:'M',  cond:'Sangat Baik',  status:'available' },
+  { image:'https://i.pinimg.com/1200x/8b/f3/25/8bf325444a9fd9d8a2d99dc2c38cd95d.jpg', name:'Knit Crop Top Sage Green',        brand:'Stradivarius',  cat:'Atasan',    price:'Rp 55.000',  size:'S',  cond:'Seperti Baru', status:'drop'      },
+  { image:'https://i.pinimg.com/1200x/a4/44/39/a444393914fb13f1814b5d346f707a3e.jpg', name:'Wool Scarf Plaid Pattern',        brand:'Loewe Archive', cat:'Aksesoris', price:'Rp 145.000', size:'-',  cond:'Sangat Baik',  status:'sold'      },
+  { image:'https://i.pinimg.com/736x/a6/f7/e4/a6f7e4b669f8c6b908e65030c13a0188.jpg', name:'High-Waist Straight Jeans',       brand:"Levi's",        cat:'Bawahan',   price:'Rp 275.000', size:'28', cond:'Baik',         status:'available' },
+];
+
+const statusMap = {
+  available: { text:'Tersedia',        cls:'badge-green' },
+  sold:      { text:'Sold Out',        cls:'badge-gray'  },
+  drop:      { text:'Drop Berikutnya', cls:'badge-gold'  },
+};
+
+function renderProducts(list) {
+  const tbody = document.getElementById('productsBody');
+  if (!tbody) return;
+
+  tbody.innerHTML = list.map((p, i) => `
+    <tr>
+      <td>
+        <div class="table-product-wrap">
+          <div class="product-img-cell" style="padding:0; overflow:hidden; display:flex; align-items:center; justify-content:center;">
+            <img src="${p.image}" alt="${p.name}" style="width:100%; height:100%; object-fit:cover; border-radius:4px;">
+          </div>
+          <div>
+            <div class="product-cell-name">${p.name}</div>
+            <div class="product-cell-brand">${p.brand}</div>
+          </div>
+        </div>
+      </td>
+      <td style="color:var(--text-muted);font-size:13px;">${p.cat}</td>
+      <td><strong>${p.price}</strong></td>
+      <td style="color:var(--text-muted);">${p.size}</td>
+      <td style="font-size:13px;color:var(--text-muted);">${p.cond}</td>
+      <td><span class="badge ${statusMap[p.status].cls}">${statusMap[p.status].text}</span></td>
+      <td>
+        <div class="table-action-btns">
+          <button class="table-btn table-btn-view" title="Preview" onclick="showToast('👁 Preview produk ${i+1}')">👁</button>
+          <button class="table-btn table-btn-edit" title="Edit" onclick="openModal('productModal')">✏️</button>
+          <button class="table-btn table-btn-delete" title="Hapus">🗑</button>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+}
+
+renderProducts(products);
+
+document.getElementById('tableSearch')?.addEventListener('input', e => {
+  const q = e.target.value.toLowerCase();
+  renderProducts(products.filter(p => p.name.toLowerCase().includes(q) || p.brand.toLowerCase().includes(q)));
+});
+
+function openModal(id)  { document.getElementById(id)?.classList.add('open'); }
+function closeModal(id) { document.getElementById(id)?.classList.remove('open'); }
+document.querySelectorAll('.modal-close, .modal-cancel').forEach(btn => {
+  btn.addEventListener('click', () => document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('open')));
+});
+</script>
+<script src="js/main.js?v=4"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>

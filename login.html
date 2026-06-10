@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Masuk — GoodFinds</title>
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages/login.css">
+</head>
+<body>
+
+<div class="login-page">
+
+  <!-- LEFT: Branding -->
+  <div class="login-left">
+    <div class="login-brand-wrap">
+      <a href="index.html" class="login-logo">Good<span>Finds</span></a>
+      <p class="login-tagline">Thrift yang kurasi.<br>Style yang autentik.<br>Pilihan untuk bumi.</p>
+    </div>
+    <div class="login-hero-img">
+      <img src="https://i.pinimg.com/736x/10/04/4d/10044d5192f643e6d3d2b07f8ae7149b.jpg" alt="Fashion thrift">
+    </div>
+    <div class="login-deco">
+      <div class="login-deco-card login-deco-card-1">
+        <div class="deco-card-icon">✨</div>
+        <div class="deco-card-text">New Drop Live!</div>
+        <div class="deco-card-sub">500+ item baru</div>
+      </div>
+      <div class="login-deco-card login-deco-card-2">
+        <div class="deco-card-icon">🌿</div>
+        <div class="deco-card-text">Eco Impact</div>
+        <div class="deco-card-sub">12.450 item diselamatkan</div>
+      </div>
+    </div>
+    <div class="login-left-pattern"></div>
+  </div>
+
+  <!-- RIGHT: Form -->
+  <div class="login-right">
+
+    <!-- MODE TOGGLE -->
+    <div class="login-corner-toggle">
+      <button class="corner-pill-btn active" id="modeUser" onclick="switchMode('user')">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+        User
+      </button>
+      <button class="corner-pill-btn" id="modeAdmin" onclick="switchMode('admin')">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4v5c0 5-3.5 9.7-8 11-4.5-1.3-8-6-8-11V7l8-4z"/></svg>
+        Admin
+      </button>
+    </div>
+
+    <div class="login-form-wrap" style="padding-top: 56px;">
+
+      <!-- USER SECTION -->
+      <div id="userSection">
+        <div class="auth-tabs">
+          <button class="auth-tab active" id="tabLogin" onclick="switchTab('login')">Masuk</button>
+          <button class="auth-tab" id="tabRegister" onclick="switchTab('register')">Daftar</button>
+        </div>
+
+        <!-- LOGIN FORM -->
+        <div id="loginForm">
+          <h2 class="login-form-title">Selamat datang kembali!</h2>
+          <p class="login-form-desc">Masuk untuk mulai berburu item thrift terbaik.</p>
+
+          <div class="form-group" style="margin-bottom:20px;">
+            <label class="form-label">Email</label>
+            <input type="email" class="form-input" id="loginEmail" placeholder="kamu@email.com">
+          </div>
+          <div class="form-group" style="margin-bottom:8px; position:relative;">
+            <label class="form-label">Password</label>
+            <input type="password" class="form-input" id="loginPass" placeholder="Masukkan password">
+            <button class="pass-toggle" onclick="togglePass('loginPass', this)" type="button">👁</button>
+          </div>
+
+          <div id="loginError" style="display:none; margin-bottom:12px; padding:10px 14px;
+            background:#FFF0F3; border:1px solid var(--border-mid);
+            border-radius:var(--radius-sm); font-size:13px; color:var(--pink-dark);">
+            Email atau password tidak sesuai.
+          </div>
+
+          <div style="text-align:right; margin-bottom:28px;">
+            <a href="#" class="login-forgot">Lupa password?</a>
+          </div>
+
+          <button class="btn btn-primary btn-lg" style="width:100%;" onclick="handleLogin()">
+            Masuk ke GoodFinds
+          </button>
+
+          <div class="login-divider"><span>atau masuk dengan</span></div>
+          <div class="login-socials">
+            <button class="login-social-btn" onclick="showToast('🚧 Login Google dalam pengembangan')">
+              <span>G</span> Google
+            </button>
+            <button class="login-social-btn" onclick="showToast('🚧 Login Instagram dalam pengembangan')">
+              <span>📸</span> Instagram
+            </button>
+          </div>
+        </div>
+
+        <!-- REGISTER FORM -->
+        <div id="registerForm" style="display:none;">
+          <h2 class="login-form-title">Bergabung dengan GoodFinds</h2>
+          <p class="login-form-desc">Daftar gratis dan mulai berburu item thrift impianmu.</p>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:20px;">
+            <div class="form-group">
+              <label class="form-label">Nama Depan</label>
+              <input type="text" class="form-input" id="regFirstName" placeholder="Nama">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Nama Belakang</label>
+              <input type="text" class="form-input" id="regLastName" placeholder="Nama">
+            </div>
+          </div>
+          <div class="form-group" style="margin-bottom:20px;">
+            <label class="form-label">Email</label>
+            <input type="email" class="form-input" id="regEmail" placeholder="kamu@email.com">
+          </div>
+          <div class="form-group" style="margin-bottom:20px; position:relative;">
+            <label class="form-label">Password</label>
+            <input type="password" class="form-input" id="regPass" placeholder="Min. 8 karakter">
+            <button class="pass-toggle" onclick="togglePass('regPass', this)" type="button">👁</button>
+          </div>
+          <div class="form-group" style="margin-bottom:24px;">
+            <label class="form-label">Konfirmasi Password</label>
+            <input type="password" class="form-input" id="regPassConfirm" placeholder="Ulangi password">
+          </div>
+          <label class="login-agree">
+            <input type="checkbox" id="agreeCheck">
+            <span>Saya setuju dengan <a href="#" style="color:var(--pink-mid);">Syarat & Ketentuan</a> GoodFinds</span>
+          </label>
+
+          <div id="registerError" style="display:none; margin-top:12px; padding:10px 14px;
+            background:#FFF0F3; border:1px solid var(--border-mid);
+            border-radius:var(--radius-sm); font-size:13px; color:var(--pink-dark);"></div>
+
+          <button class="btn btn-primary btn-lg" style="width:100%; margin-top:24px;" onclick="handleRegister()">
+            Buat Akun Gratis
+          </button>
+        </div>
+      </div>
+
+      <!-- ADMIN SECTION -->
+      <div id="adminSection" style="display:none;">
+        <div class="admin-login-badge">
+          <span class="admin-badge-icon">🛡</span>
+          <div>
+            <div class="admin-badge-title">Admin Panel</div>
+            <div class="admin-badge-sub">Akses terbatas untuk administrator</div>
+          </div>
+        </div>
+
+        <h2 class="login-form-title" style="margin-top:24px;">Masuk sebagai Admin</h2>
+        <p class="login-form-desc">Gunakan kredensial admin untuk mengakses dashboard pengelolaan.</p>
+
+        <div class="form-group" style="margin-bottom:20px;">
+          <label class="form-label">Email Admin</label>
+          <input type="email" class="form-input" id="adminEmail" placeholder="admin@goodfinds.id">
+        </div>
+        <div class="form-group" style="margin-bottom:8px; position:relative;">
+          <label class="form-label">Password Admin</label>
+          <input type="password" class="form-input" id="adminPass" placeholder="Password admin">
+          <button class="pass-toggle" onclick="togglePass('adminPass', this)" type="button">👁</button>
+        </div>
+
+        <div id="adminError" style="display:none; margin-top:12px; margin-bottom:12px; padding:10px 14px;
+          background:#FFF0F3; border:1px solid var(--border-mid);
+          border-radius:var(--radius-sm); font-size:13px; color:var(--pink-dark);">
+          Email atau password admin tidak sesuai.
+        </div>
+
+        <div style="text-align:right; margin-bottom:28px; margin-top:8px;">
+          <a href="#" class="login-forgot">Lupa password admin?</a>
+        </div>
+
+        <button class="btn btn-primary btn-lg" style="width:100%;" onclick="handleAdminLogin()">
+          Masuk ke Dashboard Admin
+        </button>
+
+        <p style="margin-top:20px; font-size:12px; color:var(--text-light); text-align:center; line-height:1.6;">
+          🔒 Aktivitas login admin dicatat untuk keamanan sistem.<br>
+          Akses tidak sah dilarang.
+        </p>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<style>
+.login-left { position:relative; overflow:hidden; }
+.login-hero-img { position:absolute; inset:0; z-index:0; }
+.login-hero-img img { width:100%; height:100%; object-fit:cover; opacity:0.35; }
+.login-brand-wrap, .login-deco { position:relative; z-index:1; }
+.login-right { position: relative; }
+.login-corner-toggle {
+  position: absolute; top: 16px; right: 20px;
+  display: flex; gap: 6px; z-index: 10;
+}
+.corner-pill-btn {
+  display: flex; align-items: center; gap: 6px;
+  padding: 7px 14px; border-radius: var(--radius-full);
+  border: 1.5px solid var(--border-soft); background: var(--white);
+  font-size: 12px; font-weight: 500; color: var(--text-muted);
+  cursor: pointer; transition: var(--transition);
+  font-family: var(--font-body); position: relative;
+}
+.corner-pill-btn:hover { border-color: var(--pink-mid); color: var(--pink-dark); }
+.corner-pill-btn.active {
+  background: #2D1B3D; border-color: #2D1B3D;
+  color: var(--white); box-shadow: 0 3px 12px rgba(45,27,61,.25);
+}
+.admin-login-badge {
+  display: flex; align-items: center; gap: 14px;
+  background: linear-gradient(135deg, #2D2020, #4a2840);
+  border-radius: var(--radius-md); padding: 16px 20px; color: white;
+}
+.admin-badge-icon { font-size: 28px; }
+.admin-badge-title { font-size: 15px; font-weight: 600; margin-bottom: 2px; }
+.admin-badge-sub { font-size: 12px; opacity: 0.55; }
+</style>
+
+<script src="js/auth.js"></script>
+<script>
+// Redirect if already logged in
+const _s = gfGetSession();
+if (_s) {
+  window.location.href = _s.role === 'admin' ? 'dashboard.html' : 'index.html';
+}
+
+function switchMode(mode) {
+  const isAdmin = mode === 'admin';
+  document.getElementById('userSection').style.display  = isAdmin ? 'none'  : 'block';
+  document.getElementById('adminSection').style.display = isAdmin ? 'block' : 'none';
+  document.getElementById('modeUser').classList.toggle('active', !isAdmin);
+  document.getElementById('modeAdmin').classList.toggle('active', isAdmin);
+  ['loginError','registerError','adminError'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = 'none';
+  });
+}
+
+function switchTab(tab) {
+  document.getElementById('loginForm').style.display    = tab === 'login'    ? 'block' : 'none';
+  document.getElementById('registerForm').style.display = tab === 'register' ? 'block' : 'none';
+  document.getElementById('tabLogin').classList.toggle('active',    tab === 'login');
+  document.getElementById('tabRegister').classList.toggle('active', tab === 'register');
+}
+
+function togglePass(id, btn) {
+  const input = document.getElementById(id);
+  input.type  = input.type === 'password' ? 'text' : 'password';
+  btn.textContent = input.type === 'password' ? '👁' : '🙈';
+}
+
+function handleLogin() {
+  const email = document.getElementById('loginEmail').value.trim();
+  const pass  = document.getElementById('loginPass').value;
+  const errorEl = document.getElementById('loginError');
+  if (!email || !pass) {
+    errorEl.textContent = 'Lengkapi email dan password.';
+    errorEl.style.display = 'block'; return;
+  }
+  const session = gfLogin(email, pass);
+  if (!session || session.role === 'admin') {
+    errorEl.textContent = 'Email atau password tidak sesuai.';
+    errorEl.style.display = 'block'; return;
+  }
+  errorEl.style.display = 'none';
+  showToast('✅ Masuk berhasil! Selamat datang, ' + session.name.split(' ')[0] + '!');
+  setTimeout(() => window.location.href = 'index.html', 1500);
+}
+
+function handleRegister() {
+  const firstName = document.getElementById('regFirstName').value.trim();
+  const lastName  = document.getElementById('regLastName').value.trim();
+  const email     = document.getElementById('regEmail').value.trim();
+  const pass      = document.getElementById('regPass').value;
+  const passConf  = document.getElementById('regPassConfirm').value;
+  const agree     = document.getElementById('agreeCheck').checked;
+  const errorEl   = document.getElementById('registerError');
+  if (!firstName || !email || !pass || !passConf) {
+    errorEl.textContent = 'Lengkapi semua kolom yang diperlukan.';
+    errorEl.style.display = 'block'; return;
+  }
+  if (pass.length < 8) {
+    errorEl.textContent = 'Password minimal 8 karakter.';
+    errorEl.style.display = 'block'; return;
+  }
+  if (pass !== passConf) {
+    errorEl.textContent = 'Password dan konfirmasi password tidak cocok.';
+    errorEl.style.display = 'block'; return;
+  }
+  if (!agree) {
+    errorEl.textContent = 'Centang persetujuan Syarat & Ketentuan terlebih dahulu.';
+    errorEl.style.display = 'block'; return;
+  }
+  const result = gfRegister(firstName, lastName, email, pass);
+  if (result.error) {
+    errorEl.textContent = result.error;
+    errorEl.style.display = 'block'; return;
+  }
+  errorEl.style.display = 'none';
+  showToast('🎉 Akun berhasil dibuat! Selamat berburu thrift ✨');
+  setTimeout(() => window.location.href = 'index.html', 1800);
+}
+
+function handleAdminLogin() {
+  const email   = document.getElementById('adminEmail').value.trim();
+  const pass    = document.getElementById('adminPass').value;
+  const errorEl = document.getElementById('adminError');
+  if (!email || !pass) {
+    errorEl.textContent = 'Lengkapi email dan password admin.';
+    errorEl.style.display = 'block'; return;
+  }
+  const session = gfLogin(email, pass);
+  if (!session || session.role !== 'admin') {
+    errorEl.textContent = 'Email atau password admin tidak sesuai.';
+    errorEl.style.display = 'block'; return;
+  }
+  errorEl.style.display = 'none';
+  showToast('🛡 Login admin berhasil! Mengarahkan ke dashboard...');
+  setTimeout(() => window.location.href = 'dashboard.html', 1500);
+}
+
+function showToast(msg) {
+  let toast = document.getElementById('gf-toast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'gf-toast';
+    toast.style.cssText = 'position:fixed;bottom:28px;right:28px;z-index:9999;background:#2D2D2D;color:#fff;padding:14px 22px;border-radius:999px;font-size:14px;font-weight:500;box-shadow:0 8px 32px rgba(0,0,0,0.2);transform:translateY(80px);opacity:0;transition:all 0.35s cubic-bezier(0.34,1.56,0.64,1);';
+    document.body.appendChild(toast);
+  }
+  toast.textContent = msg;
+  setTimeout(() => { toast.style.transform = 'translateY(0)'; toast.style.opacity = '1'; }, 10);
+  setTimeout(() => { toast.style.transform = 'translateY(80px)'; toast.style.opacity = '0'; }, 3000);
+}
+</script>
+<script>if(typeof gfUpdateNavbar==='function') gfUpdateNavbar();</script>
+</body>
+</html>

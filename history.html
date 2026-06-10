@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Riwayat Pesanan — GoodFinds</title>
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages/history.css">
+  <script src="js/auth.js"></script>
+  <script>const _gfUserSession = gfRequireLogin(); if(!_gfUserSession) throw new Error("Not logged in");</script>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="index.html" class="navbar-logo">Good<span>Finds</span></a>
+    <div class="navbar-nav">
+      <a href="catalog.html" class="navbar-link">Katalog</a>
+      <a href="articles.html" class="navbar-link">Artikel</a>
+      <a href="index.html#why" class="navbar-link">Tentang</a>
+    </div>
+    <div class="navbar-actions">
+      <a href="cart.html" class="navbar-icon-btn" title="Keranjang">🛒<span class="navbar-cart-count" id="cartCount">0</span></a>
+      <a href="login.html" class="btn btn-primary btn-sm">Profil</a>
+    </div>
+    <button class="navbar-hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="navbar-mobile-drawer" id="mobileDrawer">
+  <a href="catalog.html" class="navbar-mobile-link">Katalog</a>
+  <a href="articles.html" class="navbar-mobile-link">Artikel</a>
+  <a href="index.html#why" class="navbar-mobile-link">Tentang</a>
+  <div class="navbar-mobile-actions">
+    <a href="cart.html" class="btn btn-outline btn-sm" style="flex:1">🛒 Keranjang</a>
+    <a href="login.html" class="btn btn-primary btn-sm" style="flex:1">Profil</a>
+  </div>
+</div>
+
+<section class="history-section">
+  <div class="container">
+
+    <div class="history-header">
+      <div>
+        <h1 class="history-title">Riwayat Pesanan</h1>
+        <p class="history-subtitle">Pantau semua transaksi dan status pengirimanmu</p>
+      </div>
+      <div class="history-filters">
+        <button class="history-filter-btn active history-tab" data-status="all">Semua</button>
+        <button class="history-filter-btn history-tab" data-status="pending">Diproses</button>
+        <button class="history-filter-btn history-tab" data-status="shipping">Dikirim</button>
+        <button class="history-filter-btn history-tab" data-status="done">Selesai</button>
+        <button class="history-filter-btn history-tab" data-status="cancelled">Dibatalkan</button>
+      </div>
+    </div>
+
+    <!-- EMPTY STATE -->
+    <div class="history-empty" id="historyEmpty" style="display:none;">
+      <div class="history-empty-icon">📦</div>
+      <div class="history-empty-title">Belum ada pesanan</div>
+      <div class="history-empty-desc">Kamu belum punya pesanan dengan status ini</div>
+      <a href="catalog.html" class="btn btn-primary btn-lg">Mulai Belanja</a>
+    </div>
+
+    <!-- ORDER LIST — dirender oleh history.js -->
+    <div class="history-items" id="ordersList"></div>
+
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <a href="index.html" class="footer-brand">Good<span>Finds</span></a>
+        <p class="footer-tagline">Thrift yang dikurasi, style yang autentik, dan pilihan yang baik untuk bumi. Temukan gaya unikmu di GoodFinds.</p>
+        <div class="footer-socials">
+          <a href="#" class="footer-social-btn">📸</a>
+          <a href="#" class="footer-social-btn">🐦</a>
+          <a href="#" class="footer-social-btn">📱</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Belanja</div>
+        <a href="catalog.html" class="footer-link">Semua Produk</a>
+        <a href="catalog.html" class="footer-link">New Drop</a>
+        <a href="catalog.html" class="footer-link">Bestseller</a>
+        <a href="catalog.html" class="footer-link">Sale</a>
+      </div>
+      <div>
+        <div class="footer-col-title">Info</div>
+        <a href="articles.html" class="footer-link">Blog</a>
+        <a href="index.html#why" class="footer-link">Tentang Kami</a>
+        <a href="#" class="footer-link">Karir</a>
+        <a href="#" class="footer-link">Press</a>
+      </div>
+      <div>
+        <div class="footer-col-title">Bantuan</div>
+        <a href="#" class="footer-link">Cara Pemesanan</a>
+        <a href="#" class="footer-link">Pengiriman</a>
+        <a href="#" class="footer-link">Pengembalian</a>
+        <a href="#" class="footer-link">Kontak</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2026 GoodFinds. All rights reserved.</span>
+      <div class="footer-bottom-links">
+        <a href="#" class="footer-bottom-link">Privasi</a>
+        <a href="#" class="footer-bottom-link">Syarat &amp; Ketentuan</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js?v=4"></script>
+<script src="js/history.js?v=2"></script>
+<script>if(typeof gfUpdateNavbar==='function') gfUpdateNavbar();</script>
+</body>
+</html>

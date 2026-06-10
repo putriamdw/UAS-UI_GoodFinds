@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kelola Pengguna — GoodFinds Admin</title>
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages/admin.css">
+  <script src="js/auth.js"></script>
+  <script>const _gfAdminSession = gfRequireAdmin(); if(!_gfAdminSession) throw new Error("Not admin");</script>
+</head>
+<body>
+<div class="admin-layout">
+
+  <aside class="admin-sidebar">
+    <div class="admin-sidebar-logo">
+      <div class="admin-sidebar-logo-text">Good<span>Finds</span></div>
+      <div class="admin-sidebar-role">Admin Panel</div>
+    </div>
+    <nav class="admin-nav">
+      <div class="admin-nav-section">Utama</div>
+      <a href="dashboard.html" class="admin-nav-link"><span class="nav-icon">📊</span> Dashboard</a>
+      <div class="admin-nav-section">Konten</div>
+      <a href="manage-articles.html" class="admin-nav-link"><span class="nav-icon">📝</span> Kelola Artikel</a>
+      <a href="manage-products.html" class="admin-nav-link"><span class="nav-icon">👗</span> Kelola Produk</a>
+      <div class="admin-nav-section">Data</div>
+      <a href="manage-users.html" class="admin-nav-link active"><span class="nav-icon">👥</span> Kelola Pengguna</a>
+      <a href="manage-transactions.html" class="admin-nav-link"><span class="nav-icon">💳</span> Kelola Transaksi</a>
+      <div class="admin-nav-section">Sistem</div>
+      <a href="index.html" class="admin-nav-link"><span class="nav-icon">🌐</span> Lihat Website</a>
+      <a href="#" class="admin-nav-link" onclick="gfLogout();return false;"><span class="nav-icon">🚪</span> Keluar</a>
+    </nav>
+  </aside>
+
+  <div class="admin-main">
+    <!-- TOPBAR -->
+    <div class="admin-topbar">
+      <div class="admin-topbar-left">
+        <div class="admin-topbar-title">Kelola Pengguna</div>
+        <div class="admin-topbar-breadcrumb">Admin Panel &nbsp;›&nbsp; Kelola Pengguna</div>
+      </div>
+      <div class="admin-topbar-right">
+        <button class="admin-topbar-notif" onclick="showToast('🔔 Tidak ada notifikasi baru')">
+          🔔 <span class="admin-notif-badge">3</span>
+        </button>
+        <div class="admin-topbar-user">
+          <div class="admin-topbar-avatar">A</div>
+          <div class="admin-topbar-userinfo">
+            <div class="admin-topbar-username">Admin</div>
+            <div class="admin-topbar-userrole">Super Admin</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="admin-content">
+      <div class="admin-page-header">
+        <div>
+          <h1 class="admin-page-title">Kelola Pengguna</h1>
+          <p class="admin-page-desc">Total: <strong>4.832</strong> pengguna terdaftar</p>
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="showToast('➕ Fitur tambah user admin')">+ Tambah Admin</button>
+      </div>
+
+      <!-- STATS ROW -->
+      <div class="admin-stat-row">
+        <div class="admin-mini-stat">
+          <div class="admin-mini-stat-label">Total Pengguna</div>
+          <div class="admin-mini-stat-value">4.832</div>
+          <div class="admin-mini-stat-change">↑ 124 bulan ini</div>
+        </div>
+        <div class="admin-mini-stat">
+          <div class="admin-mini-stat-label">Pengguna Aktif</div>
+          <div class="admin-mini-stat-value">4.601</div>
+          <div class="admin-mini-stat-change">95.2% dari total</div>
+        </div>
+        <div class="admin-mini-stat">
+          <div class="admin-mini-stat-label">Nonaktif</div>
+          <div class="admin-mini-stat-value">198</div>
+          <div class="admin-mini-stat-change" style="color:var(--text-light)">4.1% dari total</div>
+        </div>
+        <div class="admin-mini-stat">
+          <div class="admin-mini-stat-label">Baru Bulan Ini</div>
+          <div class="admin-mini-stat-value">124</div>
+          <div class="admin-mini-stat-change">↑ 18% vs bulan lalu</div>
+        </div>
+      </div>
+
+      <!-- TOOLBAR -->
+      <div class="admin-toolbar">
+        <div class="admin-search" style="flex:1;max-width:320px;">
+          <span class="admin-search-icon">🔍</span>
+          <input type="text" placeholder="Cari nama atau email...">
+        </div>
+        <select class="admin-filter-select">
+          <option>Semua Role</option>
+          <option>Customer</option>
+          <option>Admin</option>
+        </select>
+        <select class="admin-filter-select">
+          <option>Semua Status</option>
+          <option>Aktif</option>
+          <option>Nonaktif</option>
+          <option>Banned</option>
+        </select>
+        <button class="btn btn-ghost btn-sm" onclick="showToast('📥 Ekspor data pengguna...')">⬇ Ekspor</button>
+      </div>
+
+      <div class="table-wrapper">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Pengguna</th>
+              <th>Role</th>
+              <th>Bergabung</th>
+              <th>Transaksi</th>
+              <th>Total Belanja</th>
+              <th>Status</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <div class="user-cell">
+                  <div class="user-avatar">S</div>
+                  <div>
+                    <div class="user-info-name">Sari Dewi</div>
+                    <div class="user-info-email">sari@email.com</div>
+                  </div>
+                </div>
+              </td>
+              <td><span class="badge badge-pink">Customer</span></td>
+              <td>Jan 2026</td>
+              <td>12</td>
+              <td>Rp 2.480.000</td>
+              <td><span class="badge badge-green">Aktif</span></td>
+              <td>
+                <div class="table-action-btns">
+                  <button class="table-btn table-btn-view" title="Lihat" onclick="showToast('👁 Detail: Sari Dewi')">👁</button>
+                  <button class="table-btn table-btn-edit" title="Edit" onclick="openModal('userModal')">✏️</button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div class="user-cell">
+                  <div class="user-avatar">R</div>
+                  <div>
+                    <div class="user-info-name">Rizky Adi</div>
+                    <div class="user-info-email">rizky@email.com</div>
+                  </div>
+                </div>
+              </td>
+              <td><span class="badge badge-pink">Customer</span></td>
+              <td>Feb 2026</td>
+              <td>5</td>
+              <td>Rp 890.000</td>
+              <td><span class="badge badge-green">Aktif</span></td>
+              <td>
+                <div class="table-action-btns">
+                  <button class="table-btn table-btn-view" title="Lihat" onclick="showToast('👁 Detail: Rizky Adi')">👁</button>
+                  <button class="table-btn table-btn-edit" title="Edit" onclick="openModal('userModal')">✏️</button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div class="user-cell">
+                  <div class="user-avatar">M</div>
+                  <div>
+                    <div class="user-info-name">Maya Indah</div>
+                    <div class="user-info-email">maya@email.com</div>
+                  </div>
+                </div>
+              </td>
+              <td><span class="badge badge-pink">Customer</span></td>
+              <td>Mar 2026</td>
+              <td>8</td>
+              <td>Rp 1.240.000</td>
+              <td><span class="badge badge-green">Aktif</span></td>
+              <td>
+                <div class="table-action-btns">
+                  <button class="table-btn table-btn-view" title="Lihat" onclick="showToast('👁 Detail: Maya Indah')">👁</button>
+                  <button class="table-btn table-btn-edit" title="Edit" onclick="openModal('userModal')">✏️</button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div class="user-cell">
+                  <div class="user-avatar" style="background:linear-gradient(135deg,var(--gold-mid),var(--gold-light));">A</div>
+                  <div>
+                    <div class="user-info-name">Admin GoodFinds</div>
+                    <div class="user-info-email">admin@goodfinds.id</div>
+                  </div>
+                </div>
+              </td>
+              <td><span class="badge badge-gold">Admin</span></td>
+              <td>Jan 2026</td>
+              <td>—</td>
+              <td>—</td>
+              <td><span class="badge badge-green">Aktif</span></td>
+              <td>
+                <div class="table-action-btns">
+                  <button class="table-btn table-btn-view" title="Lihat" onclick="showToast('👁 Detail: Admin')">👁</button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div class="user-cell">
+                  <div class="user-avatar" style="background:#C8C8C8;">D</div>
+                  <div>
+                    <div class="user-info-name">Dini Puspita</div>
+                    <div class="user-info-email">dini@email.com</div>
+                  </div>
+                </div>
+              </td>
+              <td><span class="badge badge-pink">Customer</span></td>
+              <td>Apr 2026</td>
+              <td>1</td>
+              <td>Rp 75.000</td>
+              <td><span class="badge badge-gray">Nonaktif</span></td>
+              <td>
+                <div class="table-action-btns">
+                  <button class="table-btn table-btn-view" title="Lihat" onclick="showToast('👁 Detail: Dini Puspita')">👁</button>
+                  <button class="table-btn table-btn-edit" title="Edit" onclick="openModal('userModal')">✏️</button>
+                  <button class="table-btn table-btn-delete" title="Ban" onclick="showToast('🚫 Akun dinonaktifkan')">🚫</button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="table-pagination">
+          <span class="table-pagination-info">Menampilkan 1–5 dari 4.832 pengguna</span>
+          <div class="table-pagination-btns">
+            <button class="tpag-btn">←</button>
+            <button class="tpag-btn active">1</button>
+            <button class="tpag-btn">2</button>
+            <button class="tpag-btn">3</button>
+            <button class="tpag-btn">…</button>
+            <button class="tpag-btn">→</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL EDIT USER -->
+<div class="modal-overlay" id="userModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 class="modal-title">Edit Pengguna</h2>
+      <button class="modal-close" onclick="closeModal('userModal')">×</button>
+    </div>
+    <div class="modal-form">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div class="form-group">
+          <label class="form-label">Nama</label>
+          <input type="text" class="form-input" value="Sari Dewi">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input type="email" class="form-input" value="sari@email.com">
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div class="form-group">
+          <label class="form-label">Role</label>
+          <select class="form-input form-select">
+            <option>Customer</option>
+            <option>Admin</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Status</label>
+          <select class="form-input form-select">
+            <option>Aktif</option>
+            <option>Nonaktif</option>
+            <option>Banned</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Catatan Admin (opsional)</label>
+        <textarea class="form-input" placeholder="Tambahkan catatan..."></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('userModal')">Batal</button>
+      <button class="btn btn-primary" onclick="closeModal('userModal');showToast('✅ Data pengguna disimpan!')">Simpan</button>
+    </div>
+  </div>
+</div>
+
+<script src="js/main.js?v=4"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>
